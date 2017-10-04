@@ -3468,17 +3468,8 @@ div.quicktabs_tabpage.nojs-hide {
     color: #f7a600;
 }
 
-#header_menu .menuheader li.active, #header_menu .menuheader li.active-trail {
-    border-bottom: solid 5px #f7a600;
-}
-
 #header_menu .menuheader li:nth-child(3) a {
     border-left: 0;
-}
-
-#header_menu .menuheader ul:first-child li:nth-child(2) {
-    border: none;
-    background: #f7a600;
 }
 
 #header_menu .menuheader ul:first-child li:nth-child(2) a {

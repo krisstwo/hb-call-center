@@ -76,14 +76,14 @@
                     <div id="block-menu-menu-menu-principal" class="block block-menu col-md-12 menuheader">
                         <div class="content">
                             <ul class="menu">
-                                <li class="first leaf active-trail"><a href="/home"
-                                                                       class="active-trail active">Accueil</a></li>
-                                <li class="leaf"><a href="/showroom">Je commande</a></li>
-                                <li class="leaf"><a href="/recherche">Je cherche un hôtel</a></li>
-                                <li class="leaf"><a href="/comment-ca-marche">Comment ça marche ?</a></li>
-                                <li class="leaf"><a href="/qui-somme-nous">Qui sommes-nous ?</a></li>
-                                <li class="leaf"><a href="/vos-questions">J&#039;ai une question</a></li>
-                                <li class="last leaf"><a href="/contactez-nous">Contactez-nous</a></li>
+                                <li class="first leaf active-trail">
+                                    <a href="https://www.happybreak.com" class="active-trail active">Accueil</a></li>
+                                <li class="leaf"><a href="https://www.happybreak.com/showroom">Je commande</a></li>
+                                <li class="leaf"><a href="https://www.happybreak.com/recherche">Je cherche un hôtel</a></li>
+                                <li class="leaf"><a href="https://www.happybreak.com/comment-ca-marche">Comment ça marche ?</a></li>
+                                <li class="leaf"><a href="https://www.happybreak.com/qui-somme-nous">Qui sommes-nous ?</a></li>
+                                <li class="leaf"><a href="https://www.happybreak.com/vos-questions">J&#039;ai une question</a></li>
+                                <li class="last leaf"><a href="https://www.happybreak.com/contactez-nous">Contactez-nous</a></li>
                             </ul>
                         </div>
                     </div>
@@ -107,9 +107,4 @@
     <div id="page" class="container">
 
 <?php
-/**
- * Functions hooked in to storefront_content_top
- *
- * @hooked woocommerce_breadcrumb - 10
- */
-do_action( 'storefront_content_top' );
+

@@ -22,22 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div class="row_order_payement">
-    <div class="logo_child_theme"><img src="<?php echo  get_stylesheet_directory_uri() ?>/assets/images/Image1.png"></div>
-    <div class="text-content-child">
-        <p>
-            <?php _e( ' Vous êtes sur le point de finaliser un vente. Vous pouvez :
-            encaisser la vente directement sur ce site
-            envoyer un mail, qui permettra au client de saisir lui-même ses coordonnées bancaires
-            Suivez les étapes!', 'woocommerce' ); ?>
 
-
-        </p>
-    </div>
-</div>
-<h3 class="margin-top-20 text-center " style="margin-top: 20px; text-align: center">
-    <?php _e( 'Payer votre commande', 'woocommerce' ); ?>
-</h3>
+<h2 class="margin-top-20 text-center " style="margin-top: 20px; text-align: center">
+  <b>  <?php _e( 'Payer votre commande', 'woocommerce' ); ?></b>
+</h2>
 <form id="order_review" method="post">
 
 	<table class="shop_table">

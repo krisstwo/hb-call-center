@@ -27,33 +27,33 @@
                     <div id="block-menu-menu-f1" class="block block-menu block_footer_top">
                         <div class="content">
                             <ul class="menu">
-                                <li class="first leaf"><a href="/qui-somme-nous">Qui sommes-nous ?</a></li>
-                                <li class="last leaf"><a href="/mentions-legales">Mentions légales</a></li>
+                                <li class="first leaf"><a href="https://www.happybreak.com/qui-somme-nous">Qui sommes-nous ?</a></li>
+                                <li class="last leaf"><a href="https://www.happybreak.com/mentions-legales">Mentions légales</a></li>
                             </ul>
                         </div>
                     </div>
                     <div id="block-menu-menu-f2" class="block block-menu block_footer_top">
                         <div class="content">
                             <ul class="menu">
-                                <li class="first leaf"><a href="/vos-questions">Questions fréquentes</a></li>
-                                <li class="last leaf"><a href="/contactez-nous">Contactez-nous</a></li>
+                                <li class="first leaf"><a href="https://www.happybreak.com/vos-questions">Questions fréquentes</a></li>
+                                <li class="last leaf"><a href="https://www.happybreak.com/contactez-nous">Contactez-nous</a></li>
                             </ul>
                         </div>
                     </div>
                     <div id="block-menu-menu-f3" class="block block-menu block_footer_top">
                         <div class="content">
                             <ul class="menu">
-                                <li class="first leaf"><a href="/cgv">Conditions Générales de Vente</a></li>
-                                <li class="last leaf"><a href="/cgu">Conditions Générales d&#039;Utilisation</a></li>
+                                <li class="first leaf"><a href="https://www.happybreak.com/cgv">Conditions Générales de Vente</a></li>
+                                <li class="last leaf"><a href="https://www.happybreak.com/cgu">Conditions Générales d&#039;Utilisation</a></li>
                             </ul>
                         </div>
                     </div>
                     <div id="block-menu-menu-f4" class="block block-menu block_footer_top">
                         <div class="content">
                             <ul class="menu">
-                                <li class="first leaf"><a href="/comment-ca-marche" class="payment">Paiement
+                                <li class="first leaf"><a href="https://www.happybreak.com/comment-ca-marche" class="payment">Paiement
                                         sécurisé</a></li>
-                                <li class="last leaf"><a href="/presse">Presse</a></li>
+                                <li class="last leaf"><a href="https://www.happybreak.com/presse">Presse</a></li>
                             </ul>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
             </div>
         </div>
     </div>
-    <div id="footer_bottom"> Tous droits réservés - Happybreak 2017 - <a href="//www.advency.fr" target="_blank">Réalisation
+    <div id="footer_bottom"> Tous droits réservés - Happybreak 2017 - <a href="https://www.advency.fr/" target="_blank">Réalisation
             Advency</a></div>
 </div>
 <div id="bio_ep_bg"></div>
