@@ -162,3 +162,118 @@ function happybreak_remove_metabox_for_nonadmins()
 }
 
 add_action('add_meta_boxes', 'happybreak_remove_metabox_for_nonadmins', 999);
+
+/**
+ * add aditionel adress to billing/shipping form
+ * @param $fields
+ * @return mixed
+ */
+function happybreak_add_additional_address_to_billing_form($fields)
+{
+    $fields['billing']['fields']['billing_additional_address'] = array(
+        'label' => __("Complément d'adresse", 'woocommerce'),
+        'required' => false,
+        'clear' => true,
+        'type' => 'text'
+    );
+    $fields['shipping']['fields']['shipping_additional_address'] = array(
+        'label' => __("Complément d'adresse", 'woocommerce'),
+        'required' => false,
+        'clear' => true,
+        'type' => 'text'
+    );
+
+    return $fields;
+}
+
+add_filter('woocommerce_checkout_fields', 'happybreak_add_additional_address_to_billing_form');
+
+/**
+ * save aditionel adress
+ * @param $order_id
+ */
+function happybreak_save_additional_address_to_billing_meta($order_id)
+{
+    if (!empty($_POST['billing_additional_address']) || !empty($_POST['shipping_additional_address'])) {
+        update_post_meta($order_id, 'billing_additional_address', sanitize_text_field($_POST['billing_additional_address']));
+        update_post_meta($order_id, 'shipping_additional_address', sanitize_text_field($_POST['shipping_additional_address']));
+    }
+}
+
+add_action('woocommerce_checkout_update_order_meta', 'happybreak_save_additional_address_to_billing_meta');
+
+/**
+ * add aditionel_adress to edit form
+ * @param $fields
+ * @return mixed
+ */
+function happybreak_add_additional_address_to_user_edit_form($fields)
+{
+    $fields['billing']['fields']['billing_additional_address'] = array(
+        'label' => __("Complément d'adresse", 'woocommerce'),
+        'required' => false,
+        'clear' => true,
+        'type' => 'text'
+    );
+    $fields['shipping']['fields']['shipping_additional_address'] = array(
+        'label' => __("Complément d'adresse", 'woocommerce'),
+        'required' => false,
+        'clear' => true,
+        'type' => 'text'
+    );
+
+    return $fields;
+}
+
+add_filter('woocommerce_customer_meta_fields', 'happybreak_add_additional_address_to_user_edit_form');
+
+/**
+ * add phone to shipping form
+ * @param $fields
+ * @return mixed
+ */
+function happybreak_add_phone_to_shipping_user_edit_form($fields)
+{
+    $fields['shipping']['fields']['shipping_phone'] = array(
+        'label' => __("Phone", 'woocommerce'),
+        'required' => false,
+        'clear' => true,
+        'type' => 'text'
+    );
+
+    return $fields;
+}
+
+add_filter('woocommerce_customer_meta_fields', 'happybreak_add_phone_to_shipping_user_edit_form');
+
+/**
+ * save phone shipping
+ * @param $order_id
+ */
+function happybreak_save_phone_to_shipping_meta($order_id)
+{
+    if (!empty($_POST['shipping_phone']) ) {
+        update_post_meta($order_id, 'shipping_phone', sanitize_text_field($_POST['shipping_phone']));
+       }
+}
+
+add_action('woocommerce_checkout_update_order_meta', 'happybreak_save_phone_to_shipping_meta');
+
+/**
+ * add phone to form shipping
+ * @param $fields
+ * @return mixed
+ */
+function happybreak_add_phone_to_shipping_form($fields)
+{
+    $fields['shipping']['fields']['shipping_phone'] = array(
+        'label' => __("Phone", 'woocommerce'),
+        'required' => false,
+        'clear' => true,
+        'type' => 'text'
+    );
+
+    return $fields;
+}
+
+add_filter('woocommerce_checkout_fields', 'happybreak_add_phone_to_shipping_form');
