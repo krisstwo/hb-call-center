@@ -277,3 +277,99 @@ function happybreak_add_phone_to_shipping_form($fields)
 }
 
 add_filter('woocommerce_checkout_fields', 'happybreak_add_phone_to_shipping_form');
+
+/**
+ * add fiel to admin order form biiling #billing_additional_address
+ * @param array $fields
+ * @return array
+ */
+function happybreak_add_adress_to_field_order_admin(array $fields){
+    $fields['additional_address'] = array(
+        'label' => __("Complément d'adresse", 'woocommerce'),
+        'required' => false,
+        'clear' => true,
+        'type' => 'text'
+    );
+
+    return $fields;
+}
+add_filter('woocommerce_admin_billing_fields', 'happybreak_add_adress_to_field_order_admin');
+
+/**
+ * add fiel to admin order form shipping #shipping_phone
+ * @param array $fields
+ * @return array
+ */
+function happybreak_add_phone_to_field_order_admin(array $fields){
+    $fields['phone'] = array(
+        'label' => __("Phone", 'woocommerce'),
+        'required' => false,
+        'clear' => true,
+        'type' => 'text'
+    );
+
+    return $fields;
+}
+add_filter('woocommerce_admin_shipping_fields', 'happybreak_add_phone_to_field_order_admin');
+
+/**
+ * add fiel to admin order form shipping #shipping_additional_address
+ * @param array $fields
+ * @return array
+ */
+function happybreak_add_aditional_adress_to_shipping_field_order_admin(array $fields){
+    $fields['additional_address'] = array(
+        'label' => __("Complément d'adresse", 'woocommerce'),
+        'required' => false,
+        'clear' => true,
+        'type' => 'text'
+    );
+
+    return $fields;
+}
+add_filter('woocommerce_admin_shipping_fields', 'happybreak_add_aditional_adress_to_shipping_field_order_admin');
+
+/**
+ * add custom field to shipping adress
+ * invoice pdf
+ * @param $shipping_address
+ * @return string
+ */
+function happybreak_add_custom_field_shipping_to_template_mail_invocie($shipping_address) {
+    $order_id=$_GET['order_ids'];
+    if(empty($order_id))
+        return $shipping_address;
+
+    $order = new WC_Order($order_id);
+    if(!$order)
+        return $shipping_address;
+
+    $adress='<p>'. $order->shipping_additional_address .'<br> '.$order->shipping_phone.'</br></p>';
+
+    return $shipping_address.$adress;
+}
+add_filter( 'wpo_wcpdf_shipping_address', 'happybreak_add_custom_field_shipping_to_template_mail_invocie' );
+
+/**
+* add custom field to biiling adress
+* invoice pdf
+* @param $shipping_address
+* @return string
+*/
+function happybreak_add_custom_field_billing_to_template_mail_invocie($shipping_address) {
+    $order_id=$_GET['order_ids'];
+    if(empty($order_id))
+        return $shipping_address;
+
+    $order = new WC_Order($order_id);
+    if(!$order)
+        return $shipping_address;
+
+    $adress='<p>'. $order->billing_additional_address .'<br> '.$order->billing_phone.'</br></p>';
+
+    return $shipping_address.$adress;
+}
+add_filter( 'wpo_wcpdf_billing_address', 'happybreak_add_custom_field_billing_to_template_mail_invocie' );
+
+
+
