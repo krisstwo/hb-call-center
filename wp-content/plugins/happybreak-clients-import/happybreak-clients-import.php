@@ -284,14 +284,19 @@ add_filter('woocommerce_checkout_fields', 'happybreak_add_phone_to_shipping_form
  * @return array
  */
 function happybreak_add_adress_to_field_order_admin(array $fields){
-    $fields['additional_address'] = array(
+    $aditionel= array(
         'label' => __("Complément d'adresse", 'woocommerce'),
         'required' => false,
         'clear' => true,
         'type' => 'text'
     );
+    // set information after adress 2
+    $orderTable = array_slice($fields, 0, 5, true) +
+        array("additional_address" => $aditionel) +
+        array_slice($fields, 1, count($fields) - 1, true) ;
 
-    return $fields;
+
+    return $orderTable;
 }
 add_filter('woocommerce_admin_billing_fields', 'happybreak_add_adress_to_field_order_admin');
 
@@ -318,14 +323,18 @@ add_filter('woocommerce_admin_shipping_fields', 'happybreak_add_phone_to_field_o
  * @return array
  */
 function happybreak_add_aditional_adress_to_shipping_field_order_admin(array $fields){
-    $fields['additional_address'] = array(
+    $aditionel = array(
         'label' => __("Complément d'adresse", 'woocommerce'),
         'required' => false,
         'clear' => true,
         'type' => 'text'
     );
+    // set information after adress 2
+    $orderTable = array_slice($fields, 0, 5, true) +
+        array("additional_address" => $aditionel) +
+        array_slice($fields, 1, count($fields) - 1, true) ;
 
-    return $fields;
+    return $orderTable;
 }
 add_filter('woocommerce_admin_shipping_fields', 'happybreak_add_aditional_adress_to_shipping_field_order_admin');
 
