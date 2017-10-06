@@ -253,16 +253,13 @@ table.totals tr.payment_method {
 /* Footer Imprint */
 #footer {
     border: 1px solid #f7a600;
-	position: absolute;
-	bottom: -2cm;
-	left: 0;
-	right: 0;
+    right: 0;
     font-size: 12px;
-	 /* if you change the footer height, don't forget to change the bottom (=negative height) and the @page margin-bottom as well! */
-	text-align: left;
-
-	margin-bottom: 0;
-	padding-top: 2mm;
+    /* if you change the footer height, don't forget to change the bottom (=negative height) and the @page margin-bottom as well! */
+    text-align: left;
+    margin-top: 1cm;
+    margin-bottom: 0;
+    padding-top: 15mm;
     padding-left: 5mm;
 }
 
