@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="region region-header">
                     <div id="block-block-40" class="block block-block col-lg-4 col-md-4 col-sm-4 ">
-                        <div class="content"><a id="logo" href="/"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/logo_header.png"></a></div>
+                        <div class="content"><a id="logo" href="https://www.happybreak.com/"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/logo_header.png"></a></div>
                     </div>
                     <div id="block-block-14" class="block block-block col-lg-4 col-md-4 col-sm-4 middle telephone ">
                         <div class="content">
@@ -51,16 +51,10 @@
                         <div id="block-menu-menu-menu-se-connecter-haut" class="block block-menu menu_login">
                             <div class="content">
                                 <ul class="menu">
-                                    <li class="first leaf"><a href="/user/register">Je crée mon compte membre</a></li>
-                                    <li class="leaf"><a href="/" rel="connectDialog" class="open-dialog active">Je me
-                                            connecte</a></li>
-                                    <li class="last leaf"><a href="/panier">Panier</a></li>
+                                    <li class="first leaf"><a href="https://www.happybreak.com/user/register">Je crée mon compte membre</a></li>
+                                    <li class="last leaf"><a href="https://www.happybreak.com/panier">Panier</a></li>
                                 </ul>
                             </div>
-                        </div>
-                        <div id="block-block-10" class="block block-block">
-                            <div class="content"><a href="#" rel="activeDialog" class="open-dialog">J'active ma carte
-                                    happybreak</a></div>
                         </div>
                     </div>
                 </div>
