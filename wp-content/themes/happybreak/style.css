@@ -10718,3 +10718,25 @@ div.quicktabs_tabpage.nojs-hide {
         padding: 0 !important;
     }
 }
+
+/**
+Custom sytles START
+ */
+
+body {
+    margin: 0;
+    line-height: initial;
+}
+
+#header_menu .menuheader ul:first-child li:nth-child(2) a {
+    border-left: 1px solid #ffffff;
+    font-weight: normal;
+}
+
+#header_menu .menuheader li:nth-child(3) a {
+    border-left: 1px solid #ffffff;
+}
+
+/**
+Custom sytles END
+ */
