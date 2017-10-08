@@ -10,6 +10,7 @@ License: v1
 */
 define('CLIENT_IMPORT', plugin_dir_path(__FILE__));
 define('CALL_CENTER_AGENT_ROLE', 'call_center_agent');
+define('ORDER_CALL_CENTER_AGENT_USER_ID', 'call_center_agent_user_id');
 
 
 /**
@@ -52,7 +53,7 @@ function happybreak_assign_teleopertor_to_order($order_id)
 {
     $order = wc_get_order($order_id);
 
-    $order->update_meta_data('call_center_agent_user_id', get_current_user_id());
+    $order->update_meta_data(ORDER_CALL_CENTER_AGENT_USER_ID, get_current_user_id());
     $order->save();
 
     return true;
@@ -68,10 +69,10 @@ function happybreak_custom_orders_filters($post_type)
 {
     if ($post_type == 'shop_order') {
 
-        $usersTeleOp = get_users('blog_id=1&orderby=nicename&role=tloprateur');
-        echo '<select name="my_filter_tel">';
+        $usersTeleOp = get_users('blog_id=1&orderby=nicename&role=' . CALL_CENTER_AGENT_ROLE);
+        echo '<select name="agent_filter">';
         ?>
-        <option value><?php _e('Tous les Téléopérateur'); ?></option>
+        <option value><?php _e('Tous les Téléopérateurs'); ?></option>
         <?php
         if (!empty($usersTeleOp)) {
             foreach ($usersTeleOp as $row) :
@@ -95,9 +96,9 @@ add_action('restrict_manage_posts', 'happybreak_custom_orders_filters');
 function filter_teleoperateur_admin($query)
 {
 
-    if ($_GET['my_filter_tel']) {
-        $query->set('meta_key', 'teleoperateur_user_id');
-        $query->set('meta_value', $_GET['my_filter_tel']);
+    if ($_GET['agent_filter']) {
+        $query->set('meta_key', ORDER_CALL_CENTER_AGENT_USER_ID);
+        $query->set('meta_value', $_GET['agent_filter']);
     }
     return $query;
 }
