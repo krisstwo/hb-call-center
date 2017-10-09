@@ -117,6 +117,7 @@ table.order-data-addresses {
     font-weight: 100;
     font-size: 12px;
 	margin-bottom: 4mm;
+	line-height: .7em;
 }
 .shop-address{
     font-weight: 800;
@@ -191,8 +192,6 @@ dl {
 
 dt, dd, dd p {
 	display: inline;
-	font-size: 7pt;
-	line-height: 7pt;
 }
 
 dd {
@@ -259,7 +258,7 @@ table.totals tr.payment_method {
     text-align: left;
     margin-top: 1cm;
     margin-bottom: 0;
-    padding-top: 15mm;
+    padding-top: 5mm;
     padding-left: 5mm;
 }
 
@@ -293,7 +292,7 @@ table.recap_order {
 }
 .footer_condition{
     font-weight: 800;
-    margin-top: 15mm;
+    margin-top: 10px;
 }
 .text_footer_description{
     font-size: 10px;
@@ -305,4 +304,11 @@ table.recap_order {
 }
 .span_pdf_lien{
     color: #0000cc;
+}
+
+h1.no-margin {
+	margin: 0;
+}
+.billing-address, .shipping-address {
+	line-height: .7em;
 }

@@ -29,7 +29,7 @@
             <?php if ( isset($this->settings['display_number']) ) { ?>
             <tr>
             <td>
-                <?php _e( 'Invoice Number:', 'woocommerce-pdf-invoices-packing-slips' ); ?>
+                <?php _e( 'N° de facture', 'woocommerce-pdf-invoices-packing-slips' ); ?> :
               <span class="color_custom_info">
                   <?php $this->invoice_number(); ?>
               </span>
@@ -38,7 +38,7 @@
             <?php } ?>
             <?php if ( isset($this->settings['display_date']) ) { ?>
                 <td height="30">
-                    <?php _e( 'Invoice Date:', 'woocommerce-pdf-invoices-packing-slips' ); ?>
+                    <?php _e( 'Facture émise le', 'woocommerce-pdf-invoices-packing-slips' ); ?> :
                     <span class="color_custom_info">
                         <?php $this->invoice_date(); ?>
                    <span>
@@ -47,7 +47,7 @@
 
 				<tr class="order-number">
 					<td>
-                        <?php _e( 'Order Number:', 'woocommerce-pdf-invoices-packing-slips' ); ?>
+                        <?php _e( 'N° de commande', 'woocommerce-pdf-invoices-packing-slips' ); ?> :
                         <span class="color_custom_info">
                         <?php $this->order_number(); ?>
                         <span>
@@ -55,7 +55,7 @@
 				</tr>
 				<tr class="order-date">
 					<td>
-                        <?php _e( 'Order Date:', 'woocommerce-pdf-invoices-packing-slips' ); ?>
+                        <?php _e( 'Date de la commande', 'woocommerce-pdf-invoices-packing-slips' ); ?> :
                         <span class="color_custom_info">
                             <?php $this->order_date(); ?>
                          </span>
@@ -63,7 +63,7 @@
 				</tr>
 				<tr class="payment-method">
 					<td>
-                        <?php _e( 'Payment Method:', 'woocommerce-pdf-invoices-packing-slips' ); ?>
+                        <?php _e( 'Moyen de paiement', 'woocommerce-pdf-invoices-packing-slips' ); ?>
                         <span class="color_custom_info">
                             <?php $this->payment_method(); ?>
                          </span>
@@ -79,7 +79,8 @@
     <tbody>
     <tr>
         <td>
-            <h1> <?php _e( 'Votre commande :', 'woocommerce-pdf-invoices-packing-slips' ); ?></h1>
+            <h1 class="no-margin"> <?php _e( 'Votre commande :', 'woocommerce-pdf-invoices-packing-slips' ); ?></h1>
+            <br/>
             <div class="produc_form">
                 <?php $items = $this->get_order_items(); if( sizeof( $items ) > 0 ) : foreach( $items as $item_id => $item ) : ?>
                   <p>
@@ -110,35 +111,27 @@
 
             <div class="total_order">
 
-                <?php
-
-
-                foreach( $this->get_woocommerce_totals() as $key => $total ) : ?>
+                <?php $totals = $this->get_woocommerce_totals(); ?>
                    <p>
-                       <?php echo $total['label']; ?>
-
-                       <span class="totals-price"><?php echo $total['value']; ?></span>
-
+                       <?= __( 'Total de la commande', 'happybreak' ); ?> : <?php echo $totals['order_total']['value']; ?>
                    </p>
-                <?php endforeach; ?>
-
             </div>
 
         </td>
     </tr>
 
 
-    <tr>
+    <tr class="billing-address">
         <td>
-             <h1><?php _e( 'VOTRE ADRESSE DE LIVRAISON', 'woocommerce-pdf-invoices-packing-slips' ); ?></h1>
+             <h1 class="no-margin"><?php _e( 'VOTRE ADRESSE DE LIVRAISON', 'woocommerce-pdf-invoices-packing-slips' ); ?></h1>
 
                 <?php $this->shipping_address(); ?>
         </td>
     </tr>
 
-    <tr class="last_order_detail">
+    <tr class="last_order_detail shipping-address">
         <td>
-            <h1><?php _e( 'VOTRE ADRESSE DE FACTURATION', 'woocommerce-pdf-invoices-packing-slips' ); ?></h1>
+            <h1 class="no-margin"><?php _e( 'VOTRE ADRESSE DE FACTURATION', 'woocommerce-pdf-invoices-packing-slips' ); ?></h1>
             <?php $this->billing_address(); ?>
             <?php if ( isset($this->settings['display_email']) ) { ?>
                 <div class="billing-email"><?php $this->billing_email(); ?></div>
