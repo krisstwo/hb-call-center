@@ -381,5 +381,18 @@ function happybreak_add_custom_field_billing_to_template_mail_invocie($shipping_
 }
 add_filter( 'wpo_wcpdf_billing_address', 'happybreak_add_custom_field_billing_to_template_mail_invocie' );
 
+function happybreak_search_customer_by_phone($query_args, $term)
+{
+    if (strpos($term, 't ') !== 0)
+        return;
 
+    $query_args['meta_query'][] = array(
+        'key' => 'billing_phone',
+        'value' => substr($term, 2),
+        'compare' => 'LIKE',
+    );
 
+    return $query_args;
+}
+
+add_filter('woocommerce_customer_search_customers', 'happybreak_search_customer_by_phone', 10, 2);
