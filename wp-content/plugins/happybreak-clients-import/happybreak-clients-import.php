@@ -303,3 +303,26 @@ function happybreak_search_customer_by_phone($query_args, $term)
 }
 
 add_filter('woocommerce_customer_search_customers', 'happybreak_search_customer_by_phone', 10, 2);
+
+function remove_dashboard_widgets_for_nonadmins() {
+    global $wp_meta_boxes;
+
+    if (current_user_can('manage_options'))
+        return;
+
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links']);
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now']);
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins']);
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_drafts']);
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments']);
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']);
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']);
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']);
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_activity']);
+
+    remove_meta_box( 'woocommerce_dashboard_status', 'dashboard', 'normal');
+    remove_meta_box( 'woocommerce_dashboard_recent_reviews', 'dashboard', 'normal');
+}
+
+add_action('wp_dashboard_setup', 'remove_dashboard_widgets_for_nonadmins' );
