@@ -341,7 +341,7 @@ add_filter( 'wpo_wcpdf_billing_address', 'happybreak_add_custom_field_billing_to
 function happybreak_search_customer_by_phone($query_args, $term)
 {
     if (strpos($term, 't ') !== 0)
-        return;
+        return $query_args;
 
     $query_args['meta_query'][] = array(
         'key' => 'billing_phone',
