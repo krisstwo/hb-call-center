@@ -67,7 +67,7 @@ add_action('save_post_shop_order', 'happybreak_assign_teleopertor_to_order');
  */
 function happybreak_custom_orders_filters($post_type)
 {
-    if ($post_type == 'shop_order') {
+    if ($post_type == 'shop_order' && is_super_admin(get_current_user_id())) {
 
         $usersTeleOp = get_users('blog_id=1&orderby=nicename&role=' . CALL_CENTER_AGENT_ROLE);
         echo '<select name="agent_filter">';
@@ -96,7 +96,7 @@ add_action('restrict_manage_posts', 'happybreak_custom_orders_filters');
 function filter_teleoperateur_admin($query)
 {
 
-    if ($_GET['agent_filter']) {
+    if ($_GET['agent_filter'] && is_super_admin(get_current_user_id())) {
         $query->set('meta_key', ORDER_CALL_CENTER_AGENT_USER_ID);
         $query->set('meta_value', $_GET['agent_filter']);
     }
