@@ -376,3 +376,11 @@ function remove_dashboard_widgets_for_nonadmins() {
 }
 
 add_action('wp_dashboard_setup', 'remove_dashboard_widgets_for_nonadmins' );
+function happybreak_remove_orders_bulk_actions_for_nonadmins()
+{
+    if (!is_super_admin(get_current_user_id())) {
+        add_filter('bulk_actions-edit-shop_order', '__return_empty_array');
+    }
+}
+
+add_action('wp_loaded', 'happybreak_remove_orders_bulk_actions_for_nonadmins');
