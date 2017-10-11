@@ -105,6 +105,56 @@ function filter_teleoperateur_admin($query)
 
 add_filter('parse_query', 'filter_teleoperateur_admin');
 
+/**
+ *
+ * @param $where
+ * @param $query
+ * @return mixed
+ */
+function happybreak_force_filter_orders_by_agent($where, $query)
+{
+    global $wpdb;
+    $currentUserId = get_current_user_id();
+    if (!is_super_admin($currentUserId)) {
+        $where .= " AND EXISTS (SELECT * FROM {$wpdb->postmeta} pm_agent WHERE pm_agent.post_id = {$wpdb->posts}.ID AND pm_agent.meta_key = '" . ORDER_CALL_CENTER_AGENT_USER_ID . "' AND pm_agent.meta_value = '$currentUserId')";
+    }
+
+    return $where;
+}
+
+add_filter('posts_where', 'happybreak_force_filter_orders_by_agent', 10, 2);
+add_filter('posts_where_request', 'happybreak_force_filter_orders_by_agent', 10, 2);
+add_filter('posts_where_paged', 'happybreak_force_filter_orders_by_agent', 10, 2);
+
+function happybreak_allow_own_order_edit_only($allcaps, $caps, $args, $user)
+{
+    if (!empty($allcaps['delete_users']))
+        return $allcaps;
+
+    //Deny, allow
+    unset($allcaps['edit_others_shop_orders']);
+
+    /**
+     * @var $user WP_User
+     */
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['post_ID'];
+        $action = $_POST['action'];
+    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $id = $_GET['post'];
+        $action = $_GET['action'];
+    }
+
+    $order = wc_get_order($id);
+
+    if (in_array($action, array('edit', 'editpost')) && $order && (int)$order->get_meta(ORDER_CALL_CENTER_AGENT_USER_ID, true) === get_current_user_id()) {
+        $allcaps = array_merge($allcaps, array('edit_others_shop_orders' => true));
+    }
+
+    return $allcaps;
+}
+
+add_filter('user_has_cap', 'happybreak_allow_own_order_edit_only', 10, 4);
 function Is_Backend_LOGIN()
 {
     $ABSPATH_MY = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, ABSPATH);
