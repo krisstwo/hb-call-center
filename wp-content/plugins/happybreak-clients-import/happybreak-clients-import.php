@@ -376,6 +376,29 @@ function remove_dashboard_widgets_for_nonadmins() {
 }
 
 add_action('wp_dashboard_setup', 'remove_dashboard_widgets_for_nonadmins' );
+function happybreak_hide_pdf_actions_for_nonadmins($actions)
+{
+    if (!is_super_admin(get_current_user_id())) {
+        return array();
+    }
+
+    return $actions;
+}
+
+add_filter('wpo_wcpdf_listing_actions', 'happybreak_hide_pdf_actions_for_nonadmins');
+
+function happybreak_remove_finish_action_for_nonadmins($actions, $order)
+{
+    if (!is_super_admin(get_current_user_id())) {
+        unset($actions['processing']);
+        unset($actions['complete']);
+    }
+
+    return $actions;
+}
+
+add_filter('woocommerce_admin_order_actions', 'happybreak_remove_finish_action_for_nonadmins', 10, 2);
+
 function happybreak_remove_orders_bulk_actions_for_nonadmins()
 {
     if (!is_super_admin(get_current_user_id())) {
