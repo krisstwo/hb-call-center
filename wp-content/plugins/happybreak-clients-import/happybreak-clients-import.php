@@ -376,6 +376,22 @@ function remove_dashboard_widgets_for_nonadmins() {
 }
 
 add_action('wp_dashboard_setup', 'remove_dashboard_widgets_for_nonadmins' );
+
+function happybreak_hide_order_columns_for_nonadmins($columns)
+{
+    if (!is_super_admin(get_current_user_id())) {
+        unset($columns['pdf_invoice_number']);
+        unset($columns['billing_address']);
+        unset($columns['shipping_address']);
+        unset($columns['customer_message']);
+        unset($columns['order_notes']);
+    }
+
+    return $columns;
+}
+
+add_filter('manage_edit-shop_order_columns', 'happybreak_hide_order_columns_for_nonadmins', 1000);
+
 function happybreak_hide_pdf_actions_for_nonadmins($actions)
 {
     if (!is_super_admin(get_current_user_id())) {
