@@ -12,6 +12,10 @@
     display: none !important;
 }
 
+#woocommerce-order-data .form-field.wc-order-status {
+    display: none;
+}
+
 .order_actions .on-hold-email {
     display: block;
     text-indent: -9999px;

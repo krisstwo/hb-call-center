@@ -501,3 +501,21 @@ function happybreak_add_order_email_actions($actions, $order)
 }
 
 add_filter('woocommerce_admin_order_actions', 'happybreak_add_order_email_actions', 10, 2);
+
+function happybreak_remove_order_status_for_nonadmins($statuses)
+{
+    global $post;
+
+    //filter only on edit page, otherwise list won show complete
+    if (is_admin() && $post && !is_super_admin(get_current_user_id())) {
+
+        foreach ($statuses as $key => $status) {
+            if($key != $post->post_status)
+                unset($statuses[$key]);
+        }
+    }
+
+    return $statuses;
+}
+
+add_filter('wc_order_statuses', 'happybreak_remove_order_status_for_nonadmins');
