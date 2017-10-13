@@ -207,7 +207,7 @@ add_filter('user_has_cap', 'happybreak_add_guest_caps', 10, 4);
 
 function happybreak_remove_metabox_for_nonadmins()
 {
-    global $wp_meta_boxes;
+    global $wp_meta_boxes, $post;
 
     if(!is_super_admin(get_current_user_id())){
         remove_meta_box( 'postcustom' , 'shop_order' , 'normal' );
@@ -223,14 +223,14 @@ function happybreak_remove_metabox_for_nonadmins()
     $wp_meta_boxes['shop_order']['normal']['low']['woocommerce-order-actions'] = $wp_meta_boxes['shop_order']['side']['high']['woocommerce-order-actions'];
     unset($wp_meta_boxes['shop_order']['side']['high']['woocommerce-order-actions']);
     $wp_meta_boxes['shop_order']['normal']['low']['woocommerce-order-actions']['callback'] = 'Happybreak_Meta_Box_Order_Actions::output';
-    add_meta_box('woocommerce-order-payment', '4. ' . __('Mode paiement', 'happybreak'), 'Happybreak_Meta_Box_Order_Payment::output', 'shop_order', 'normal', 'low');
+    if(strpos($post->post_status, 'wc-') === 0)
+        add_meta_box('woocommerce-order-payment', '4. ' . __('Mode paiement', 'happybreak'), 'Happybreak_Meta_Box_Order_Payment::output', 'shop_order', 'normal', 'low');
 
 
     //change order metaboxes titles
     $wp_meta_boxes['shop_order']['normal']['high']['woocommerce-order-data']['title'] = '1. ' . __('Je recherche mon client', 'happybreak');
     $wp_meta_boxes['shop_order']['normal']['high']['woocommerce-order-items']['title'] = '2. ' . __('Je sélectionne mon panier', 'happybreak');
     $wp_meta_boxes['shop_order']['normal']['low']['woocommerce-order-actions']['title'] = '3. ' . __('Je crée la commande', 'happybreak');
-//    print_r($wp_meta_boxes);
 }
 
 add_action('add_meta_boxes_shop_order', 'happybreak_remove_metabox_for_nonadmins', 999);
