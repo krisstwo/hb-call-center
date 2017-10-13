@@ -214,6 +214,8 @@ function happybreak_remove_metabox_for_nonadmins()
 {
     global $wp_meta_boxes, $post;
 
+    $order = wc_get_order($post->ID);
+
     if(!is_super_admin(get_current_user_id())){
         remove_meta_box( 'postcustom' , 'shop_order' , 'normal' );
     }
@@ -228,7 +230,7 @@ function happybreak_remove_metabox_for_nonadmins()
     $wp_meta_boxes['shop_order']['normal']['low']['woocommerce-order-actions'] = $wp_meta_boxes['shop_order']['side']['high']['woocommerce-order-actions'];
     unset($wp_meta_boxes['shop_order']['side']['high']['woocommerce-order-actions']);
     $wp_meta_boxes['shop_order']['normal']['low']['woocommerce-order-actions']['callback'] = 'Happybreak_Meta_Box_Order_Actions::output';
-    if(strpos($post->post_status, 'wc-') === 0)
+    if($order->needs_payment())
         add_meta_box('woocommerce-order-payment', '4. ' . __('Mode paiement', 'happybreak'), 'Happybreak_Meta_Box_Order_Payment::output', 'shop_order', 'normal', 'low');
 
 
