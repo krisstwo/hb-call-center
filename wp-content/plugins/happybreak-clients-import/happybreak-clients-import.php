@@ -51,7 +51,12 @@ add_action('template_redirect', 'redirect_guest');
  */
 function happybreak_assign_teleopertor_to_order($order_id)
 {
+
     $order = wc_get_order($order_id);
+
+    //only stamp with current user if meta left empty, this will prevent admin from hijacking orders he edits
+    if(!empty($order->get_meta(ORDER_CALL_CENTER_AGENT_USER_ID, true)))
+        return;
 
     $order->update_meta_data(ORDER_CALL_CENTER_AGENT_USER_ID, get_current_user_id());
     $order->save();
