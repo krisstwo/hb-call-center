@@ -54,3 +54,9 @@
 .order_actions.submitbox li {
     text-align: center !important;
 }
+
+#wp-admin-bar-site-name,
+#wp-admin-bar-comments,
+#wp-admin-bar-new-content {
+    display: none;
+}
