@@ -422,4 +422,61 @@ function happybreak_remove_orders_bulk_actions_for_nonadmins()
     }
 }
 
-add_action('wp_loaded', 'happybreak_remove_orders_bulk_actions_for_nonadmins');
+add_action('wp_loaded', 'happybreak_remove_orders_bulk_actions_for_nonadmins');add_action('wp_loaded', 'happybreak_remove_orders_bulk_actions_for_nonadmins');
+
+function happybreak_admin_styles()
+{
+    wp_enqueue_style('happybreak-admin-css', plugin_dir_url(__FILE__) . '/css/admin.css');
+}
+
+add_action('admin_print_styles', 'happybreak_admin_styles');
+
+function happybreak_send_order_on_hold_email()
+{
+    $order = wc_get_order(absint($_GET['order_id']));
+// Switch back to the site locale.
+    wc_switch_to_site_locale();
+
+    do_action('woocommerce_before_resend_order_emails', $order);
+
+    // Ensure gateways are loaded in case they need to insert data into the emails.
+    WC()->payment_gateways();
+    WC()->shipping();
+
+    // Load mailer.
+    $mailer = WC()->mailer();
+    $email_to_send = 'customer_on_hold_order';
+    $mails = $mailer->get_emails();
+
+    if (!empty($mails)) {
+        foreach ($mails as $mail) {
+            if ($mail->id == $email_to_send) {
+                $mail->trigger($order->get_id(), $order);
+                /* translators: %s: email title */
+                $order->add_order_note(sprintf(__('%s email notification manually sent.', 'woocommerce'), $mail->title), false, true);
+            }
+        }
+    }
+
+    do_action('woocommerce_after_resend_order_email', $order, $email_to_send);
+
+    // Restore user locale.
+    wc_restore_locale();
+
+    wp_safe_redirect( wp_get_referer() ? wp_get_referer() : admin_url( 'edit.php?post_type=shop_order' ) );
+}
+
+add_action('wp_ajax_happybreak_send_order_on_hold_email', 'happybreak_send_order_on_hold_email');
+
+function happybreak_add_order_email_actions($actions, $order)
+{
+    $actions['on-hold-email'] = array(
+        'url'       => admin_url( 'admin-ajax.php?order_id=' . $order->ID . '&action=happybreak_send_order_on_hold_email' ),
+        'name'      => __( 'Renvoyer la commande', 'happybreak' ),
+        'action'    => 'on-hold-email',
+    );
+
+    return $actions;
+}
+
+add_filter('woocommerce_admin_order_actions', 'happybreak_add_order_email_actions', 10, 2);
