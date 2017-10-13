@@ -1,3 +1,8 @@
+#woocommerce-order-data .load_customer_billing,
+#woocommerce-order-data .load_customer_shipping {
+    display: none !important;
+}
+
 .order_actions .on-hold-email {
     display: block;
     text-indent: -9999px;
