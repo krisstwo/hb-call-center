@@ -431,10 +431,11 @@ function happybreak_admin_styles()
 
 add_action('admin_print_styles', 'happybreak_admin_styles');
 
-function happybreak_send_order_on_hold_email()
+function happybreak_send_order_email()
 {
     $order = wc_get_order(absint($_GET['order_id']));
-// Switch back to the site locale.
+    $email = $_GET['email'];
+    // Switch back to the site locale.
     wc_switch_to_site_locale();
 
     do_action('woocommerce_before_resend_order_emails', $order);
@@ -445,12 +446,11 @@ function happybreak_send_order_on_hold_email()
 
     // Load mailer.
     $mailer = WC()->mailer();
-    $email_to_send = 'customer_on_hold_order';
     $mails = $mailer->get_emails();
 
     if (!empty($mails)) {
         foreach ($mails as $mail) {
-            if ($mail->id == $email_to_send) {
+            if ($mail->id == $email) {
                 $mail->trigger($order->get_id(), $order);
                 /* translators: %s: email title */
                 $order->add_order_note(sprintf(__('%s email notification manually sent.', 'woocommerce'), $mail->title), false, true);
@@ -458,7 +458,7 @@ function happybreak_send_order_on_hold_email()
         }
     }
 
-    do_action('woocommerce_after_resend_order_email', $order, $email_to_send);
+    do_action('woocommerce_after_resend_order_email', $order, $email);
 
     // Restore user locale.
     wc_restore_locale();
@@ -466,12 +466,12 @@ function happybreak_send_order_on_hold_email()
     wp_safe_redirect( wp_get_referer() ? wp_get_referer() : admin_url( 'edit.php?post_type=shop_order' ) );
 }
 
-add_action('wp_ajax_happybreak_send_order_on_hold_email', 'happybreak_send_order_on_hold_email');
+add_action('wp_ajax_happybreak_send_order_email', 'happybreak_send_order_email');
 
 function happybreak_add_order_email_actions($actions, $order)
 {
     $actions['on-hold-email'] = array(
-        'url'       => admin_url( 'admin-ajax.php?order_id=' . $order->ID . '&action=happybreak_send_order_on_hold_email' ),
+        'url'       => admin_url( 'admin-ajax.php?order_id=' . $order->ID . '&action=happybreak_send_order_email&email=customer_on_hold_order' ),
         'name'      => __( 'Renvoyer la commande', 'happybreak' ),
         'action'    => 'on-hold-email',
     );
