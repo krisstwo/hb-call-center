@@ -1,3 +1,12 @@
+#woocommerce-order-data .hndle,
+#woocommerce-order-items .hndle {
+    display: block !important;
+}
+
+.order_actions li#actions select {
+    float: none !important;
+}
+
 #woocommerce-order-data .load_customer_billing,
 #woocommerce-order-data .load_customer_shipping {
     display: none !important;
@@ -32,4 +41,12 @@
     text-align: center;
     content: "\f466";
     line-height: 1.85;
+}
+
+.order_actions li .save_order {
+    float: none;
+}
+
+.order_actions.submitbox li {
+    text-align: center !important;
 }

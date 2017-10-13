@@ -155,6 +155,7 @@ function happybreak_allow_own_order_edit_only($allcaps, $caps, $args, $user)
 }
 
 add_filter('user_has_cap', 'happybreak_allow_own_order_edit_only', 10, 4);
+
 function Is_Backend_LOGIN()
 {
     $ABSPATH_MY = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, ABSPATH);
@@ -206,13 +207,33 @@ add_filter('user_has_cap', 'happybreak_add_guest_caps', 10, 4);
 
 function happybreak_remove_metabox_for_nonadmins()
 {
+    global $wp_meta_boxes;
+
     if(!is_super_admin(get_current_user_id())){
         remove_meta_box( 'postcustom' , 'shop_order' , 'normal' );
-        remove_meta_box( 'woocommerce-order-downloads' , 'shop_order' , 'normal' );
     }
+
+    remove_meta_box('woocommerce-order-downloads', 'shop_order', 'normal');
+    remove_meta_box('wpo_wcpdf-data-input-box', 'shop_order', 'normal');
+    remove_meta_box('wpo_wcpdf-box', 'shop_order', 'side');
+
+    //relocate order metaboxes
+    require_once 'includes/woocommerce/admin/meta-boxes/class-happybreak-meta-box-order-actions.php';
+    require_once 'includes/woocommerce/admin/meta-boxes/class-happybreak-meta-box-order-payment.php';
+    $wp_meta_boxes['shop_order']['normal']['low']['woocommerce-order-actions'] = $wp_meta_boxes['shop_order']['side']['high']['woocommerce-order-actions'];
+    unset($wp_meta_boxes['shop_order']['side']['high']['woocommerce-order-actions']);
+    $wp_meta_boxes['shop_order']['normal']['low']['woocommerce-order-actions']['callback'] = 'Happybreak_Meta_Box_Order_Actions::output';
+    add_meta_box('woocommerce-order-payment', '4. ' . __('Mode paiement', 'happybreak'), 'Happybreak_Meta_Box_Order_Payment::output', 'shop_order', 'normal', 'low');
+
+
+    //change order metaboxes titles
+    $wp_meta_boxes['shop_order']['normal']['high']['woocommerce-order-data']['title'] = '1. ' . __('Je recherche mon client', 'happybreak');
+    $wp_meta_boxes['shop_order']['normal']['high']['woocommerce-order-items']['title'] = '2. ' . __('Je sélectionne mon panier', 'happybreak');
+    $wp_meta_boxes['shop_order']['normal']['low']['woocommerce-order-actions']['title'] = '3. ' . __('Je crée la commande', 'happybreak');
+//    print_r($wp_meta_boxes);
 }
 
-add_action('add_meta_boxes', 'happybreak_remove_metabox_for_nonadmins', 999);
+add_action('add_meta_boxes_shop_order', 'happybreak_remove_metabox_for_nonadmins', 999);
 
 /**
  * add aditionel_adress to edit form
@@ -422,7 +443,7 @@ function happybreak_remove_orders_bulk_actions_for_nonadmins()
     }
 }
 
-add_action('wp_loaded', 'happybreak_remove_orders_bulk_actions_for_nonadmins');add_action('wp_loaded', 'happybreak_remove_orders_bulk_actions_for_nonadmins');
+add_action('wp_loaded', 'happybreak_remove_orders_bulk_actions_for_nonadmins');
 
 function happybreak_admin_styles()
 {
