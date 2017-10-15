@@ -491,7 +491,7 @@ function happybreak_send_order_email()
     // Restore user locale.
     wc_restore_locale();
 
-    wp_safe_redirect( wp_get_referer() ? wp_get_referer() : admin_url( 'edit.php?post_type=shop_order' ) );
+    wp_safe_redirect(admin_url('edit.php?post_type=shop_order'));
 }
 
 add_action('wp_ajax_happybreak_send_order_email', 'happybreak_send_order_email');
