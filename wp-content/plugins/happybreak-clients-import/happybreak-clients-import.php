@@ -120,7 +120,7 @@ function happybreak_force_filter_orders_by_agent($where, $query)
 {
     global $wpdb;
     $currentUserId = get_current_user_id();
-    if (!is_super_admin($currentUserId)) {
+    if (is_admin() && !is_super_admin($currentUserId)) {
         $where .= " AND EXISTS (SELECT * FROM {$wpdb->postmeta} pm_agent WHERE pm_agent.post_id = {$wpdb->posts}.ID AND pm_agent.meta_key = '" . ORDER_CALL_CENTER_AGENT_USER_ID . "' AND pm_agent.meta_value = '$currentUserId')";
     }
 
