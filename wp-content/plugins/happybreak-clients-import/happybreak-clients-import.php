@@ -526,3 +526,13 @@ function happybreak_remove_order_status_for_nonadmins($statuses)
 }
 
 add_filter('wc_order_statuses', 'happybreak_remove_order_status_for_nonadmins');
+
+function happybreak_admin_role_body_class($classes)
+{
+    if (members_current_user_has_role(CALL_CENTER_AGENT_ROLE))
+        $classes .= ' role-agent';
+
+    return $classes;
+}
+
+add_filter('admin_body_class', 'happybreak_admin_role_body_class');
