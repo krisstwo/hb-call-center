@@ -86,6 +86,7 @@
                 if (sizeof($items) > 0) : foreach ($items as $item_id => $item) : ?>
                   <p>
                       <?php echo $item['quantity']; ?> * <?php echo $item['name']; ?>  <?php $description_label = __( 'Description', 'woocommerce-pdf-invoices-packing-slips' ); // registering alternate label translation ?>
+                      <?php if((float)$item['item']->get_product()->get_sale_price() > 0) echo '<strike>' . wc_price($item['item']->get_product()->get_regular_price()) . '</strike>'; ?>
                       <?php echo $item['single_price']; ?> <?= __('TTC', 'happybreak'); ?>
                       (<?php echo $item['ex_single_price']; ?> <?= __('HT', 'happybreak'); ?>)
                       = <?php echo $item['order_price']; ?> <?= __('TTC', 'happybreak'); ?>
