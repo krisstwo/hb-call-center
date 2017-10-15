@@ -55,6 +55,20 @@
     text-align: center !important;
 }
 
+body.role-agent .edit_address > .form-field.form-field-wide {
+    display: none;
+}
+
+body.role-agent .edit_address ._transaction_id_field {
+    display: none;
+}
+
+body.role-agent #woocommerce-order-items .add-order-tax,
+body.role-agent #woocommerce-order-items .add-order-fee,
+body.role-agent #woocommerce-order-items .refund-items {
+    display: none;
+}
+
 #wp-admin-bar-site-name,
 #wp-admin-bar-comments,
 #wp-admin-bar-new-content {
