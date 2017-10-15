@@ -177,26 +177,6 @@ add_action('woocommerce_thankyou', function ($order_id) {
 
 });
 
-
-/**
- * pay as customer
- * @param $order_id
- * @param $items
- */
-function happybreak_redirect_to_checkout($order_id, $items)
-{
-    if (strpos($items['wc_order_action'], 'payAscustomer') !== false) {
-        $getArgement = explode('__', $items['wc_order_action']);
-        $urlRedirect = $getArgement[1];
-        ob_start();
-        header('Location: ' . $urlRedirect);
-        ob_end_flush();
-        exit();
-    }
-}
-
-add_action('woocommerce_before_save_order_items', 'happybreak_redirect_to_checkout', 10, 2);
-
 function happybreak_add_guest_caps($allcaps, $caps, $args, $user)
 {
     /**
