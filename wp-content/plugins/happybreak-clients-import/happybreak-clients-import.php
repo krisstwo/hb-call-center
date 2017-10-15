@@ -34,8 +34,9 @@ add_action('parse_request', 'my_custom_url_handler');
  */
 function redirect_guest()
 {
+    global $wp;
 
-    if (empty($_GET['pay_for_order']) && !is_page('thank-you') && !is_user_logged_in() && !is_super_admin(get_current_user_id()) && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE)) {
+    if (empty($_GET['pay_for_order']) && empty($wp->query_vars['order-received']) && !is_page('thank-you') && !is_user_logged_in() && !is_super_admin(get_current_user_id()) && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE)) {
         wp_redirect(' https://www.happybreak.com');
         exit();
     }
