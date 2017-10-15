@@ -496,13 +496,15 @@ function happybreak_send_order_email()
 
 add_action('wp_ajax_happybreak_send_order_email', 'happybreak_send_order_email');
 
-function happybreak_add_order_email_actions($actions, $order)
+function happybreak_add_order_email_actions($actions, WC_Order $order)
 {
-    $actions['on-hold-email'] = array(
-        'url'       => admin_url( 'admin-ajax.php?order_id=' . $order->ID . '&action=happybreak_send_order_email&email=customer_on_hold_order' ),
-        'name'      => __( 'Renvoyer la commande', 'happybreak' ),
-        'action'    => 'on-hold-email',
-    );
+    if ($order->get_status() === 'on-hold') {
+        $actions['on-hold-email'] = array(
+            'url'       => admin_url( 'admin-ajax.php?order_id=' . $order->ID . '&action=happybreak_send_order_email&email=customer_on_hold_order' ),
+            'name'      => __( 'Renvoyer la commande', 'happybreak' ),
+            'action'    => 'on-hold-email',
+        );
+    }
 
     return $actions;
 }
