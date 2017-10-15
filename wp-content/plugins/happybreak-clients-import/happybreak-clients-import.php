@@ -531,3 +531,42 @@ function happybreak_filter_available_payment_methods($availableMethods)
 }
 
 add_filter('woocommerce_available_payment_gateways', 'happybreak_filter_available_payment_methods');
+
+function happybreak_force_add_shipping_after_add_item($item_id, $item)
+{
+    $order_id = absint($_POST['order_id']);
+    $order = wc_get_order($order_id);
+
+    if (!$order)
+        return;
+
+    //if already have shipping nothing to do
+    if (count($order->get_shipping_methods()))
+        return;
+
+    $productItems = $order->get_items();
+    foreach ($productItems as $item) {
+        /**
+         * @var $item WC_Order_Item_Product
+         */
+        /**
+         * @var $product WC_Product
+         */
+        $product = $item->get_product();
+
+        if ($product->get_slug() === 'carte-privilege-1-an-2-pour-le-prix-dune') {
+            $shippingRate = new WC_Shipping_Rate();
+            $shippingRate->cost = 2.9 * $item->get_quantity();
+            $shippingItem = new WC_Order_Item_Shipping();
+            $shippingItem->set_shipping_rate($shippingRate);
+            $shippingItem->set_order_id($order_id);
+            $shippingItem->save();
+
+            $order = wc_get_order($order_id);
+            $order->calculate_taxes();
+            $order->calculate_totals(false);
+        }
+    }
+}
+
+add_action('woocommerce_saved_order_items', 'happybreak_force_add_shipping_after_add_item', 10, 2);
