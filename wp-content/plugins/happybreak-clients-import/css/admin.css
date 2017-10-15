@@ -12,7 +12,7 @@
     display: none !important;
 }
 
-#woocommerce-order-data .form-field.wc-order-status {
+body.role-agent #woocommerce-order-data .form-field.wc-order-status {
     display: none;
 }
 
