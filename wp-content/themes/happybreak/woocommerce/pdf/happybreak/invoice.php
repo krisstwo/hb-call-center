@@ -31,7 +31,7 @@
             <td>
                 <?php _e( 'N° de facture', 'woocommerce-pdf-invoices-packing-slips' ); ?> :
               <span class="color_custom_info">
-                  <?php $this->invoice_number(); ?>
+                  THB<?= str_pad($this->get_invoice_number(), 4, '0', STR_PAD_LEFT); ?>
               </span>
             </td>
             </tr>
@@ -49,7 +49,7 @@
 					<td>
                         <?php _e( 'N° de commande', 'woocommerce-pdf-invoices-packing-slips' ); ?> :
                         <span class="color_custom_info">
-                        <?php $this->order_number(); ?>
+                        T<?= str_pad($this->get_order_number(), 4, '0', STR_PAD_LEFT); ?>
                         <span>
                     </td>
 				</tr>
@@ -82,10 +82,14 @@
             <h1 class="no-margin"> <?php _e( 'Votre commande :', 'woocommerce-pdf-invoices-packing-slips' ); ?></h1>
             <br/>
             <div class="produc_form">
-                <?php $items = $this->get_order_items(); if( sizeof( $items ) > 0 ) : foreach( $items as $item_id => $item ) : ?>
+                <?php $items = $this->get_order_items();
+                if (sizeof($items) > 0) : foreach ($items as $item_id => $item) : ?>
                   <p>
                       <?php echo $item['quantity']; ?> * <?php echo $item['name']; ?>  <?php $description_label = __( 'Description', 'woocommerce-pdf-invoices-packing-slips' ); // registering alternate label translation ?>
-                       ( <?php echo $item['order_price']; ?> )
+                      = <?php echo $item['order_price']; ?> <?= __('TTC', 'happybreak'); ?>
+                      (<?php echo $item['line_total']; ?> <?= __('HT', 'happybreak'); ?>)
+                      <br/><?= __('Dont TVA', 'happybreak'); ?> <?php echo $item['tax_rates']; ?>
+                      = <?php echo $item['line_tax']; ?>
                       	<?php do_action( 'wpo_wcpdf_before_item_meta', $this->type, $item, $this->order  ); ?>
 				<span class="item-meta"><?php echo $item['meta']; ?></span>
 				<dl class="meta">
@@ -97,6 +101,21 @@
                   </p>
                 <?php endforeach; endif; ?>
             </div>
+
+            <?php if (strpos($this->get_order_shipping()['value'], '0,00') === false): ?>
+                <div class="shipping-items">
+
+                    <?= __('Livraison', 'happybreak'); ?> <?= $this->get_order_shipping()['value']; ?> <?= __('TTC', 'happybreak'); ?>
+                    <br/><?= __('Dont TVA', 'happybreak'); ?> <?= $this->get_order_shipping()['tax']; ?>
+                    <br/>&nbsp;
+                </div>
+            <?php else : ?>
+                <div class="shipping-items">
+
+                    <?= __('Livraison', 'happybreak'); ?> <?= __('gratuite', 'happybreak'); ?>
+                    <br/>&nbsp;
+                </div>
+            <?php endif; ?>
 
             <div class="note_customer">
                 <div class="customer-notes">
@@ -111,9 +130,13 @@
 
             <div class="total_order">
 
-                <?php $totals = $this->get_woocommerce_totals(); ?>
                    <p>
-                       <?= __( 'Total de la commande', 'happybreak' ); ?> : <?php echo $totals['order_total']['value']; ?>
+                       <?= __('Total de la commande', 'happybreak'); ?>
+                       : <?= $this->format_price($this->order->get_total()); ?>
+                       <?php
+                       foreach ($this->order->get_tax_totals() as $code => $tax) : ?>
+                           <br/><?= __('Dont TVA', 'happybreak'); ?> <?= $this->get_tax_rate_by_id($tax->rate_id); ?> % = <?= $tax->formatted_amount; ?>
+                       <?php endforeach; ?>
                    </p>
             </div>
 
