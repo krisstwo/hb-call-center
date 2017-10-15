@@ -518,3 +518,15 @@ function happybreak_admin_role_body_class($classes)
 }
 
 add_filter('admin_body_class', 'happybreak_admin_role_body_class');
+
+function happybreak_filter_available_payment_methods($availableMethods)
+{
+    if (!is_add_payment_method_page() && !is_super_admin(get_current_user_id()) && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE)) {
+        unset($availableMethods['bacs']);
+        unset($availableMethods['cheque']);
+    }
+
+    return $availableMethods;
+}
+
+add_filter('woocommerce_available_payment_gateways', 'happybreak_filter_available_payment_methods');
