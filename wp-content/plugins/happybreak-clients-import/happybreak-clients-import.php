@@ -461,6 +461,10 @@ function happybreak_send_order_email()
         foreach ($mails as $mail) {
             if ($mail->id == $email) {
                 $mail->trigger($order->get_id(), $order);
+                if(!(int)$order->get_meta($mail->id . '_sent', true)){
+                    $order->add_meta_data($mail->id . '_sent', 1);
+                    $order->save_meta_data();
+                }
                 /* translators: %s: email title */
                 $order->add_order_note(sprintf(__('%s email notification manually sent.', 'woocommerce'), $mail->title), false, true);
             }
