@@ -24,7 +24,7 @@ $text_align = is_rtl() ? 'right' : 'left';
 
 do_action( 'woocommerce_email_before_order_table', $order, $sent_to_admin, $plain_text, $email ); ?>
 
-<h3 style="color: #000000; font-weight: 800"><?php _e( 'VOTRE COMMANDE', 'woocommerce' ); ?></h3>
+<h3 style="color: #000000; font-weight: 800"><?php _e( 'Récapitulatif de votre commande', 'happybreak' ); ?></h3>
 <p>
     <?php _e( 'N° de commande', 'happybreak' ); ?> : <?php echo $order->get_order_number() ?>
 <br/>
@@ -36,7 +36,7 @@ do_action( 'woocommerce_email_before_order_table', $order, $sent_to_admin, $plai
 
 <p>
     <?php $totals = $order->get_order_item_totals(); ?>
-    <?php _e( 'Produits dans la commande', 'happybreak' ); ?> :
+    <b><?php _e( 'Produits dans la commande', 'happybreak' ); ?> :</b>
 </p>
 
 <p>

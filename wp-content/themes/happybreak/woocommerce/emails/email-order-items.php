@@ -26,6 +26,7 @@ foreach ( $items as $item_id => $item ) :
 	if ( apply_filters( 'woocommerce_order_item_visible', true, $item ) ) {
 		$product = $item->get_product();
 		?>
+        <p>
         <?php echo apply_filters( 'woocommerce_email_order_item_quantity', $item->get_quantity(), $item ); ?> *
 			<?php
 
@@ -57,7 +58,7 @@ foreach ( $items as $item_id => $item ) :
 			?>
 
 		<?php echo $order->get_formatted_line_subtotal( $item ); ?>
-
+        </p>
 		<?php
 	}
 
