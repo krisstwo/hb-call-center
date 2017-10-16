@@ -570,3 +570,7 @@ function happybreak_force_add_shipping_after_add_item($item_id, $item)
 }
 
 add_action('woocommerce_saved_order_items', 'happybreak_force_add_shipping_after_add_item', 10, 2);
+
+add_filter('woocommerce_order_item_needs_processing', function () {
+    return false;
+});
