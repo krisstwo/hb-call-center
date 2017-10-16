@@ -561,12 +561,12 @@ function happybreak_force_add_shipping_after_add_item($item_id, $item)
             $shippingItem->set_shipping_rate($shippingRate);
             $shippingItem->set_order_id($order_id);
             $shippingItem->save();
-
             $order = wc_get_order($order_id);
-            $order->calculate_taxes();
-            $order->calculate_totals(false);
         }
     }
+    
+    $order->calculate_taxes();
+    $order->calculate_totals(false);
 }
 
 add_action('woocommerce_saved_order_items', 'happybreak_force_add_shipping_after_add_item', 10, 2);
