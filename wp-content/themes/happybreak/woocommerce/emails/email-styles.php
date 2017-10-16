@@ -195,4 +195,13 @@ img {
 	text-decoration: none;
 	text-transform: capitalize;
 }
+
+#template_header_image img {
+    width: 259.2px;
+    height: 90px;
+}
+
+.email-footer {
+    font-size
+}
 <?php
