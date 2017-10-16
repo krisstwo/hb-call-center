@@ -596,3 +596,14 @@ function happybreak_on_hold_email_subject($subject, WC_Order $order)
 }
 
 add_filter('woocommerce_email_subject_customer_on_hold_order', 'happybreak_on_hold_email_subject', 10, 2);
+
+function happybreak_add_instrunctions_email_class($emailClasses)
+{
+    require_once 'includes/woocommerce/emails/class-happybreak-email-customer-instructions.php';
+
+    $emailClasses['Happybreak_Email_Customer_Instructions'] = new Happybreak_Email_Customer_Instructions();
+
+    return $emailClasses;
+}
+
+add_filter('woocommerce_email_classes', 'happybreak_add_instrunctions_email_class');
