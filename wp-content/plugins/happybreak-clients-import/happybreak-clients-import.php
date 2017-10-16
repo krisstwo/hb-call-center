@@ -578,3 +578,21 @@ add_action('woocommerce_saved_order_items', 'happybreak_force_add_shipping_after
 add_filter('woocommerce_order_item_needs_processing', function () {
     return false;
 });
+
+function happybreak_on_hold_email_subject($subject, WC_Order $order)
+{
+    if ((int)$order->get_meta('customer_on_hold_order_sent', true)) {
+        $subject = __("Information sur votre commande Happybreak", 'happybreak');
+    } else {
+        $subject = __("Votre commande Happybreak", 'happybreak');
+
+        if ($order->get_payment_method() == 'bacs')
+            $subject .= ' ' . __("par virement", 'happybreak');
+        else if ($order->get_payment_method() == 'cheque')
+            $subject .= ' ' . __("par chèque", 'happybreak');
+    }
+
+    return $subject;
+}
+
+add_filter('woocommerce_email_subject_customer_on_hold_order', 'happybreak_on_hold_email_subject', 10, 2);
