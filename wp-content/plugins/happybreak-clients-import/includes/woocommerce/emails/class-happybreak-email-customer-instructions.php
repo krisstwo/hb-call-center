@@ -8,6 +8,11 @@ class Happybreak_Email_Customer_Instructions extends WC_Email
 {
 
     /**
+     * @var string
+     */
+    private $activationCode;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -36,6 +41,8 @@ class Happybreak_Email_Customer_Instructions extends WC_Email
      */
     public function trigger($order_id, $order = false)
     {
+        global  $wpdb;
+
         if ($order_id && !is_a($order, 'WC_Order')) {
             $order = wc_get_order($order_id);
         }
@@ -53,6 +60,21 @@ class Happybreak_Email_Customer_Instructions extends WC_Email
             } elseif ($product->get_slug() === 'carte-3-mois-2-pour-le-prix-dune') {
                 $this->template_html = 'emails/customer-instructions-3mois.php';
                 $this->subject = __('Utiliser votre e-carte 3 mois Happybreak', 'happybreak');
+
+                //activation code logic
+                $activationCode = $order->get_meta('activation_code_3mois', true);
+                //fetch a new activation code only first time
+                if (empty($activationCode)) {
+                    $row = $wpdb->get_row('SELECT * FROM activation_codes WHERE is_used != 1');
+                    $this->activationCode = $activationCode = $row->Numerocarte;
+
+                    $order->add_meta_data('activation_code_3mois', $activationCode);
+                    $order->save_meta_data();
+
+                    $wpdb->update('activation_codes', array('is_used' => 1), array('carteund' => $row->carteund));
+                }else {
+                    $this->activationCode = $activationCode;
+                }
             } else {
                 return;
             }
@@ -90,25 +112,10 @@ class Happybreak_Email_Customer_Instructions extends WC_Email
     {
         return wc_get_template_html($this->template_html, array(
             'order' => $this->object,
+            'activation_code' => $this->activationCode,
             'email_heading' => $this->get_heading(),
             'sent_to_admin' => false,
             'plain_text' => false,
-            'email' => $this,
-        ));
-    }
-
-    /**
-     * Get content plain.
-     *
-     * @return string
-     */
-    public function get_content_plain()
-    {
-        return wc_get_template_html($this->template_plain, array(
-            'order' => $this->object,
-            'email_heading' => $this->get_heading(),
-            'sent_to_admin' => false,
-            'plain_text' => true,
             'email' => $this,
         ));
     }
