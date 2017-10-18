@@ -440,6 +440,25 @@ function happybreak_admin_styles()
 
 add_action('admin_print_styles', 'happybreak_admin_styles');
 
+/**
+ * We already mark emails sent in happybreak_send_order_email but still need to do it for auto sent emails
+ */
+function happybreak_mark_on_hold_email_sent($order_id)
+{
+    $order = wc_get_order($order_id);
+
+    if(!$order)
+        return;
+
+    if(!(int)$order->get_meta('customer_on_hold_order_sent', true)){
+        $order->add_meta_data('customer_on_hold_order_sent', 1);
+        $order->save_meta_data();
+    }
+}
+
+add_action('woocommerce_order_status_pending_to_on-hold_notification', 'happybreak_mark_on_hold_email_sent');
+add_action('woocommerce_order_status_failed_to_on-hold_notification', 'happybreak_mark_on_hold_email_sent');
+
 function happybreak_send_order_email()
 {
     $order = wc_get_order(absint($_GET['order_id']));
