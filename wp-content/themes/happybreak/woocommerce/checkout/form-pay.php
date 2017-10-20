@@ -23,12 +23,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 
-<h2 class="margin-top-20 text-center " style="margin-top: 20px; text-align: center">
-  <b>  <?php _e( 'Payer votre commande', 'woocommerce' ); ?></b>
+<h1 class="happybreak-page-heading">
+  <b><?php _e( 'Votre commande Happybreak', 'happybreak' ); ?></b>
+</h1>
+<p>
+    <strong><?php _e( 'Votre commande est presque terminée. Vérifiez les informations ci-dessous et sélectionnez votre moyen de paiement.', 'happybreak' ); ?></strong>
+</p>
+<h2 class="happybreak-section-heading">
+    <strong><?php _e( 'Récapitulatif de votre commande', 'happybreak' ); ?></strong>
 </h2>
 <form id="order_review" method="post">
 
 	<table class="shop_table">
+        <thead>
+        <tr>
+            <th colspan="3">
+                <strong><?php _e( 'N° de commande', 'happybreak' ); ?> :</strong> <?php echo $order->get_order_number(); ?>
+                <br/>
+                <strong><?php _e( 'Date de la commande', 'happybreak' ); ?> :</strong> <?php $cls_date = new DateTime($order->get_date_created());
+                echo $cls_date->format('d/m/Y'); ?>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="3"><?php _e( 'Produits dans la commande', 'happybreak' ); ?> :</th>
+        </tr>
+        </thead>
 		<thead>
 			<tr>
 				<th class="product-name"><?php _e( 'Product', 'woocommerce' ); ?></th>
@@ -73,6 +92,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php endif; ?>
 		</tfoot>
 	</table>
+
+    <h2 class="happybreak-section-heading">
+        <b><?php _e( 'Récapitulatif de vos informations', 'happybreak' ); ?></b>
+    </h2>
+
+    <p>
+        <?php _e( 'N° de commande', 'happybreak' ); ?> : <?php echo $order->get_order_number(); ?>
+        <br/>
+        <?php _e( 'Date de la commande', 'happybreak' ); ?> : <?php $cls_date = new DateTime($order->get_date_created());
+        echo $cls_date->format('d/m/Y'); ?>
+        <br/>
+        <br/>
+        <strong><?php _e( 'Billing address', 'woocommerce' ); ?> :</strong>
+        <br/>
+        <?php echo $order->get_formatted_billing_address(); ?>
+        <br/>
+        <br/>
+        <strong><?php _e( 'Shipping address', 'woocommerce' ); ?> :</strong>
+        <br/>
+        <?php echo $order->get_formatted_shipping_address(); ?>
+    </p>
+
+    <h2 class="happybreak-section-heading">
+        <b><?php _e( 'Sélectionnez votre moyen de paiement', 'happybreak' ); ?></b>
+    </h2>
 
 	<div id="payment">
 		<?php if ( $order->needs_payment() ) : ?>

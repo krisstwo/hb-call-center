@@ -10737,6 +10737,26 @@ body {
     border-left: 1px solid #ffffff;
 }
 
+h1.happybreak-page-heading {
+    background: #f7a600;
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+}
+
+h2.happybreak-section-heading {
+    background: #f7a600;
+    padding: 10px;
+    font-weight: bold;
+    color: #fff;
+}
+
+form#order_review {
+    background: none;
+}
+
 /**
 Custom sytles END
  */
