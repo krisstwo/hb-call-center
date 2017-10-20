@@ -108,8 +108,7 @@
             <?php if (strpos($this->get_order_shipping()['value'], '0,00') === false): ?>
                 <div class="shipping-items">
 
-                    <?= __('Livraison', 'happybreak'); ?> <?= $this->get_order_shipping()['value']; ?> <?= __('TTC', 'happybreak'); ?>
-                    <br/><?= __('Dont TVA', 'happybreak'); ?> <?= $this->get_order_shipping()['tax']; ?>
+                    <?= __('Livraison', 'happybreak'); ?> <?= $this->get_order_shipping()['value']; ?>
                     <br/>&nbsp;
                 </div>
             <?php else : ?>
