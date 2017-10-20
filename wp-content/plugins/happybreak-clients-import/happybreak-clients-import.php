@@ -440,6 +440,13 @@ function happybreak_admin_styles()
 
 add_action('admin_print_styles', 'happybreak_admin_styles');
 
+function happybreak_admin_scripts()
+{
+    wp_enqueue_script('happybreak-admin-js', plugin_dir_url(__FILE__) . '/js/admin.js');
+}
+
+add_action('admin_print_scripts', 'happybreak_admin_scripts');
+
 /**
  * We already mark emails sent in happybreak_send_order_email but still need to do it for auto sent emails
  */
