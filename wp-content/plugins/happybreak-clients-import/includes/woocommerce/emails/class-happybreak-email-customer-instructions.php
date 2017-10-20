@@ -56,10 +56,10 @@ class Happybreak_Email_Customer_Instructions extends WC_Email
 
             if ($product->get_slug() === 'carte-privilege-1-an-2-pour-le-prix-dune') {
                 $this->template_html = 'emails/customer-instructions-privilege.php';
-                $this->subject = __('Utiliser votre carte privilège Happybreak', 'happybreak');
+                $this->subject = __('Utilisez votre carte privilège Happybreak', 'happybreak');
             } elseif ($product->get_slug() === 'carte-3-mois-2-pour-le-prix-dune') {
                 $this->template_html = 'emails/customer-instructions-3mois.php';
-                $this->subject = __('Utiliser votre e-carte 3 mois Happybreak', 'happybreak');
+                $this->subject = __('Utilisez votre e-carte 3 mois Happybreak', 'happybreak');
 
                 //activation code logic
                 $activationCodeMeta = $order->get_meta('activation_code_3mois', false);

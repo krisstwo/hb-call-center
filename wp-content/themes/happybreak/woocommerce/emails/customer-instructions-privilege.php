@@ -22,7 +22,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 <h3><?php _e( "Comment ça marche ?", 'happybreak' ); ?></h3>
 <ul>
     <li><?php _e( "Une fois votre carte reçue, rendez-vous sur www.happybreak.com", 'happybreak' ); ?></li>
-    <li><?php _e( "Cliquez sur « J’active ma carte » puis, « Je créer un compte »", 'happybreak' ); ?></li>
+    <li><?php _e( "Cliquez sur « J’active ma carte » puis, « Je crée un compte »", 'happybreak' ); ?></li>
     <li><?php _e( "Remplissez les informations et saisissez le numéro de votre carte", 'happybreak' ); ?></li>
 </ul>
 <p><?php _e( "Après avoir « validé », vous pourrez accéder à l’ensemble des informations permettant de contacter nos hôteliers partenaires.", 'happybreak' ); ?></p>
