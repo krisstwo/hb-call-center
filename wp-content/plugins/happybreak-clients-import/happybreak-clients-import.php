@@ -594,6 +594,22 @@ function happybreak_force_add_shipping_after_add_item($item_id, $item)
 
 add_action('woocommerce_saved_order_items', 'happybreak_force_add_shipping_after_add_item', 10, 2);
 
+function happybreak_item_add_force_calcualte_texes($item, $itemId)
+{
+    $order_id = absint($_POST['order_id']);
+    $order = wc_get_order($order_id);
+
+    if(!$order)
+        return $item;
+
+    $order->calculate_taxes();
+    $order->calculate_totals(false);
+
+    return $order->get_item($itemId);
+}
+
+add_filter('woocommerce_ajax_order_item', 'happybreak_item_add_force_calcualte_texes', 10, 2);
+
 add_filter('woocommerce_order_item_needs_processing', function () {
     return false;
 });
