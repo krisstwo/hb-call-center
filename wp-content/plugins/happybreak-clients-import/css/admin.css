@@ -66,7 +66,9 @@ body.role-agent .edit_address ._transaction_id_field {
 body.role-agent #woocommerce-order-items .add-order-tax,
 body.role-agent #woocommerce-order-items .add-order-fee,
 body.role-agent #woocommerce-order-items .add-order-shipping,
-body.role-agent #woocommerce-order-items .refund-items {
+body.role-agent #woocommerce-order-items .refund-items,
+body.role-agent #woocommerce-order-items .calculate-action,
+body.role-agent #woocommerce-order-items .edit-order-item {
     display: none;
 }
 
