@@ -62,18 +62,25 @@ class Happybreak_Email_Customer_Instructions extends WC_Email
                 $this->subject = __('Utiliser votre e-carte 3 mois Happybreak', 'happybreak');
 
                 //activation code logic
-                $activationCode = $order->get_meta('activation_code_3mois', true);
+                $activationCodeMeta = $order->get_meta('activation_code_3mois', false);
                 //fetch a new activation code only first time
-                if (empty($activationCode)) {
-                    $row = $wpdb->get_row('SELECT * FROM activation_codes WHERE is_used != 1');
-                    $this->activationCode = $activationCode = $row->Numerocarte;
+                if (empty($activationCodeMeta)) {
+                    $rows = $wpdb->get_results('SELECT * FROM activation_codes WHERE is_used != 1 LIMIT 2');
+                    if (count($rows) < 2) {
+                        wp_mail($this->get_option('admin_email'), 'Codes 3 mois', 'Nombre restant insuffisant. Commande concernée : ' . $order->get_id());
+                        return;
+                    }
+                    $this->activationCode = array($rows[0]->Numerocarte, $rows[1]->Numerocarte);
 
-                    $order->add_meta_data('activation_code_3mois', $activationCode);
+                    $order->add_meta_data('activation_code_3mois', $rows[0]->Numerocarte);
+                    $order->add_meta_data('activation_code_3mois', $rows[1]->Numerocarte);
                     $order->save_meta_data();
 
-                    $wpdb->update('activation_codes', array('is_used' => 1), array('carteund' => $row->carteund));
+                    $wpdb->update('activation_codes', array('is_used' => 1), array('carteund' => $rows[0]->carteund));
+                    $wpdb->update('activation_codes', array('is_used' => 1), array('carteund' => $rows[1]->carteund));
                 }else {
-                    $this->activationCode = $activationCode;
+                    $activationCodeMeta = array_combine(array(0, 1), $activationCodeMeta);
+                    $this->activationCode = array($activationCodeMeta[0]->value, $activationCodeMeta[1]->value);
                 }
             } else {
                 return;
