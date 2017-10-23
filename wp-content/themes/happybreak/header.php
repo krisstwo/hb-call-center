@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="region region-header">
                     <div id="block-block-40" class="block block-block col-lg-4 col-md-4 col-sm-4 ">
-                        <div class="content"><a id="logo" href="https://www.happybreak.com/"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/logo_header.png"></a></div>
+                        <div class="content"><a id="logo" href="https://www.happybreak.com/" target="_blank"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/logo_header.png"></a></div>
                     </div>
                     <div id="block-block-14" class="block block-block col-lg-4 col-md-4 col-sm-4 middle telephone ">
                         <div class="content">
@@ -51,8 +51,8 @@
                         <div id="block-menu-menu-menu-se-connecter-haut" class="block block-menu menu_login">
                             <div class="content">
                                 <ul class="menu">
-                                    <li class="first leaf"><a href="https://www.happybreak.com/user/register">Je crée mon compte membre</a></li>
-                                    <li class="last leaf"><a href="https://www.happybreak.com/panier">Panier</a></li>
+                                    <li class="first leaf"><a href="https://www.happybreak.com/user/register" target="_blank">Je crée mon compte membre</a></li>
+                                    <li class="last leaf"><a href="https://www.happybreak.com/panier" target="_blank">Panier</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -71,13 +71,13 @@
                         <div class="content">
                             <ul class="menu">
                                 <li class="first leaf active-trail">
-                                    <a href="https://www.happybreak.com" class="active-trail active">Accueil</a></li>
-                                <li class="leaf"><a href="https://www.happybreak.com/showroom">Je commande</a></li>
-                                <li class="leaf"><a href="https://www.happybreak.com/recherche">Je cherche un hôtel</a></li>
-                                <li class="leaf"><a href="https://www.happybreak.com/comment-ca-marche">Comment ça marche ?</a></li>
-                                <li class="leaf"><a href="https://www.happybreak.com/qui-somme-nous">Qui sommes-nous ?</a></li>
-                                <li class="leaf"><a href="https://www.happybreak.com/vos-questions">J&#039;ai une question</a></li>
-                                <li class="last leaf"><a href="https://www.happybreak.com/contactez-nous">Contactez-nous</a></li>
+                                    <a href="https://www.happybreak.com" class="active-trail active" target="_blank">Accueil</a></li>
+                                <li class="leaf"><a href="https://www.happybreak.com/showroom" target="_blank">Je commande</a></li>
+                                <li class="leaf"><a href="https://www.happybreak.com/recherche" target="_blank">Je cherche un hôtel</a></li>
+                                <li class="leaf"><a href="https://www.happybreak.com/comment-ca-marche" target="_blank">Comment ça marche ?</a></li>
+                                <li class="leaf"><a href="https://www.happybreak.com/qui-somme-nous" target="_blank">Qui sommes-nous ?</a></li>
+                                <li class="leaf"><a href="https://www.happybreak.com/vos-questions" target="_blank">J&#039;ai une question</a></li>
+                                <li class="last leaf"><a href="https://www.happybreak.com/contactez-nous" target="_blank">Contactez-nous</a></li>
                             </ul>
                         </div>
                     </div>
