@@ -651,3 +651,9 @@ function happybreak_add_instrunctions_email_class($emailClasses)
 }
 
 add_filter('woocommerce_email_classes', 'happybreak_add_instrunctions_email_class');
+
+add_filter('send_password_change_email', '__return_false');
+add_filter('send_email_change_email', '__return_false');
+remove_action('after_password_reset', 'wp_password_change_notification');
+remove_action('register_new_user', 'wp_send_new_user_notifications');
+remove_action('edit_user_created_user', 'wp_send_new_user_notifications', 10, 2);
