@@ -10,6 +10,7 @@ License: v1
 */
 define('CLIENT_IMPORT', plugin_dir_path(__FILE__));
 define('CALL_CENTER_AGENT_ROLE', 'call_center_agent');
+define('CALL_CENTER_SUPER_AGENT_ROLE', 'call_center_super_agent');
 define('ORDER_CALL_CENTER_AGENT_USER_ID', 'call_center_agent_user_id');
 
 
@@ -121,7 +122,7 @@ function happybreak_force_filter_orders_by_agent($where, $query)
 {
     global $wpdb;
     $currentUserId = get_current_user_id();
-    if (is_admin() && !is_super_admin($currentUserId)) {
+    if (is_admin() && !is_super_admin($currentUserId) && !members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE)) {
         $where .= " AND EXISTS (SELECT * FROM {$wpdb->postmeta} pm_agent WHERE pm_agent.post_id = {$wpdb->posts}.ID AND pm_agent.meta_key = '" . ORDER_CALL_CENTER_AGENT_USER_ID . "' AND pm_agent.meta_value = '$currentUserId')";
     }
 
@@ -134,7 +135,8 @@ add_filter('posts_where_paged', 'happybreak_force_filter_orders_by_agent', 10, 2
 
 function happybreak_allow_own_order_edit_only($allcaps, $caps, $args, $user)
 {
-    if (!empty($allcaps['delete_users']))
+    //admin or super agent pass
+    if (!empty($allcaps['delete_users']) || members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE))
         return $allcaps;
 
     //Deny, allow
