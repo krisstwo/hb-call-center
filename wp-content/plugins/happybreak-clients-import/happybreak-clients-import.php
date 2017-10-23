@@ -153,9 +153,7 @@ function happybreak_allow_own_order_edit_only($allcaps, $caps, $args, $user)
         $action = $_GET['action'];
     }
 
-    $order = wc_get_order($id);
-
-    if (in_array($action, array('edit', 'editpost')) && $order && (int)$order->get_meta(ORDER_CALL_CENTER_AGENT_USER_ID, true) === get_current_user_id()) {
+    if (in_array($action, array('edit', 'editpost')) && (int)get_post_meta($id, ORDER_CALL_CENTER_AGENT_USER_ID, true) === get_current_user_id()) {
         $allcaps = array_merge($allcaps, array('edit_others_shop_orders' => true));
     }
 
