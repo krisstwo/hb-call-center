@@ -21,13 +21,8 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
         <?php _e('et nous vous en remercions.', 'happybreak'); ?>
 
         <?php
-        /**
-         * @hooked WC_Emails::order_details() Shows the order details table.
-         * @hooked WC_Structured_Data::generate_order_data() Generates structured data.
-         * @hooked WC_Structured_Data::output_structured_data() Outputs structured data.
-         * @since 2.5.0
-         */
-        do_action('woocommerce_email_order_details', $order, $sent_to_admin, $plain_text, $email);
+        //alternate order details template for invoice
+        wc_get_template('emails/email-order-invoice-details.php', array('order' => $order, 'sent_to_admin' => $sent_to_admin, 'plain_text' => $plain_text, 'email' => $email))
         ?>
 
     </p>
@@ -39,13 +34,8 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
     <p><?php _e( 'Sauf erreur de ma part je n’ai pas encore reçu votre paiement. L’offre 2 pour le prix d’un 1 va bientôt expirer !', 'happybreak' ); ?></p>
     <p><?php _e( 'Si vous avez des questions, vous pouvez me contacter au 09 80 01 01 01 (appel non surtaxé).', 'happybreak' ); ?></p>
     <?php
-    /**
-     * @hooked WC_Emails::order_details() Shows the order details table.
-     * @hooked WC_Structured_Data::generate_order_data() Generates structured data.
-     * @hooked WC_Structured_Data::output_structured_data() Outputs structured data.
-     * @since 2.5.0
-     */
-    do_action('woocommerce_email_order_details', $order, $sent_to_admin, $plain_text, $email);
+    //alternate order details template for invoice
+    wc_get_template('emails/email-order-invoice-details.php', array('order' => $order, 'sent_to_admin' => $sent_to_admin, 'plain_text' => $plain_text, 'email' => $email))
     ?>
     <p>&nbsp;</p>
     <?php if ($order->has_status('pending')) : ?>
