@@ -516,6 +516,12 @@ function happybreak_add_order_email_actions($actions, WC_Order $order)
             'name'      => __( 'Renvoyer la commande', 'happybreak' ),
             'action'    => 'on-hold-email',
         );
+    } elseif ($order->needs_payment()) {
+        $actions['pending-email'] = array(
+            'url'       => admin_url( 'admin-ajax.php?order_id=' . $order->ID . '&action=happybreak_send_order_email&email=customer_invoice' ),
+            'name'      => __( 'Renvoyer la commande', 'happybreak' ),
+            'action'    => 'pending-email',
+        );
     }
 
     return $actions;

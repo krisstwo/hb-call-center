@@ -16,7 +16,8 @@ body.role-agent #woocommerce-order-data .form-field.wc-order-status {
     display: none;
 }
 
-.order_actions .on-hold-email {
+.order_actions .on-hold-email,
+.order_actions .pending-email {
     display: block;
     text-indent: -9999px;
     position: relative;
@@ -27,7 +28,8 @@ body.role-agent #woocommerce-order-data .form-field.wc-order-status {
     width: 2em;
 }
 
-.order_actions .on-hold-email::after {
+.order_actions .on-hold-email::after,
+.order_actions .pending-email::after {
     font-family: Dashicons;
     speak: none;
     font-weight: 400;
@@ -43,8 +45,12 @@ body.role-agent #woocommerce-order-data .form-field.wc-order-status {
     width: 100%;
     height: 100%;
     text-align: center;
-    content: "\f466";
     line-height: 1.85;
+}
+
+.order_actions .on-hold-email::after,
+.order_actions .pending-email::after {
+    content: "\f466";
 }
 
 .order_actions li .save_order {
