@@ -19,9 +19,10 @@ define('ORDER_CALL_CENTER_AGENT_USER_ID', 'call_center_agent_user_id');
  */
 function my_custom_url_handler()
 {
-    if ($_SERVER["REQUEST_URI"] == '/happyBreak/import_client') {
+    if ($_SERVER["REQUEST_URI"] == '/import_client') {
         require_once(CLIENT_IMPORT . 'ImportCsv.php');
         new ImportCsv();
+        exit(0);
     }
 }
 
