@@ -46,46 +46,40 @@ class ImportCsv
         $log = new LogFile();
         $log->lfile(CLIENT_IMPORT . '/log/logfile.txt');
 
-        $current = 0;
+        $currentLineIndex = 0;
         $numberUserAdded = 0;
         $numberUserNotAdded = 0;
-        $errorLigneStructure = 0;
+        $errorLigneStructure = 1;
         $getArrayCsv = $this->readCSV($this->fileName);
         if (!empty($getArrayCsv)) {
-            $nbElement = count($getArrayCsv) - 1;
+            $totalLinesCount = count($getArrayCsv) - 1;
             foreach ($getArrayCsv as $row) {
                 if (!empty($row)) {
-                    $segmentUser = array_slice($row, 0, 6);
-                    $segmentBuiling = array_slice($row, 7);
-
-                    $rowUser = $this->checkUserRow($segmentUser);
+                    $rowUser = $this->checkUserRow($row);
 
                     if ($rowUser == false) {
                         $errorLigneStructure++;
-                        $errorLigne = $current + 1;
+                        $errorLigne = $currentLineIndex;
                         $log->lwrite('Error structure ligne number = ' . $errorLigne);
 
-                        echo "<span style='position: absolute;z-index:$current;background:#d3135a; color: #ffffff'>Error structure ligne ==>  $errorLigne</span><br><br><br>";
+                        echo "<span style='position: absolute;z-index:$currentLineIndex;background:#d3135a; color: #ffffff'>Error structure ligne ==>  $errorLigne</span><br><br><br>";
 
                     }
                     $addUser = $this->addUser($rowUser);
                     if ($addUser == false) {
                         $numberUserNotAdded++;
-                        $errorInsert = $current + 1;
-                        $log->lwrite('Error insertion ligne ' . $current);
+                        $errorInsert = $currentLineIndex;
+                        $log->lwrite('Error insertion ligne ' . $currentLineIndex);
                         // show message in front
-                        echo "<span style='position: absolute;z-index:$current;background:#602053;  color: #ffffff'>Error insertion ligne  ==>  $errorInsert</span><br><br>";
+                        echo "<span style='position: absolute;z-index:$currentLineIndex;background:#602053;  color: #ffffff'>Error insertion ligne  ==>  $errorInsert</span><br><br>";
                     } else {
-                        // add info builling
-                        $this->addUserMeta($segmentBuiling, $addUser);
                         $numberUserAdded++;
 
-                        echo "<span style='position: absolute;z-index:$current;background:#006505; color: #ffffff'>Ligne ajouter  ==>  $numberUserAdded</span><br><br><br>";
+                        echo "<span style='position: absolute;z-index:$currentLineIndex;background:#006505; color: #ffffff'>Ligne ajoutée (index) ==>  $numberUserAdded</span><br><br><br>";
                     }
-                    $current++;
-                    $this->outputProgress($current, $nbElement);
+                    $currentLineIndex++;
+                    $this->outputProgress($currentLineIndex, $totalLinesCount);
                 }
-
 
             }
             exit();
@@ -116,12 +110,30 @@ class ImportCsv
      */
     private function addUser($user_info)
     {
+        $user_email = $user_info['Adresse email'];
+        if (empty($user_email)) {
+            $user_email = $user_info['Téléphone'] . '@platform.happybreak.com';
+        }
 
-        $insert_user_result = wp_insert_user($user_info);
-        if (is_wp_error($insert_user_result)) {
+        $userID = wp_insert_user(array(
+            'user_login' => $user_email,
+            'user_email' => '',
+            'first_name' => $user_info['Prénom'],
+            'last_name' => $user_info['Nom']
+        ));
+        if (is_wp_error($userID)) {
             return false;
         } else {
-            return $insert_user_result;
+            update_user_meta($userID, 'billing_first_name', $user_info['Prénom']);
+            update_user_meta($userID, 'billing_last_name', $user_info['Nom']);
+            update_user_meta($userID, 'billing_address_1', $user_info['Adresse']);
+            update_user_meta($userID, 'billing_postcode', $user_info['Code postal']);
+            update_user_meta($userID, 'billing_city', $user_info['Ville']);
+            update_user_meta($userID, 'billing_country', 'FR');
+            update_user_meta($userID, 'billing_email', $user_info['Adresse email']);
+            update_user_meta($userID, 'billing_phone', $user_info['Téléphone']);
+
+            return $userID;
         }
     }
 
@@ -171,7 +183,6 @@ class ImportCsv
     {
         echo "<span style='position: absolute;z-index:$current;background:#FFF;'>  Script runing  === > " . round($current / $total * 100) . "  % </span>";
         $this->myFlush();
-        sleep(1);
     }
 
     /**
@@ -194,7 +205,7 @@ class ImportCsv
     private function checkUserRow($row)
     {
 
-        $structureUser = array('nickname', 'first_name', 'last_name', 'user_email', 'user_login', 'display_name');
+        $structureUser = array('Civilité', 'Prénom', 'Nom', 'Téléphone', 'Adresse', 'Code postal', 'Ville', 'Pays', 'Adresse email');
         // check structure 2 table
         if (count($structureUser) != count($row)) {
             return false;
