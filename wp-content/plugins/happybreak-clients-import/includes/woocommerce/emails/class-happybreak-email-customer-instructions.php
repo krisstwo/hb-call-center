@@ -65,9 +65,15 @@ class Happybreak_Email_Customer_Instructions extends WC_Email
                 $activationCodeMeta = $order->get_meta('activation_code_3mois', false);
                 //fetch a new activation code only first time
                 if (empty($activationCodeMeta)) {
+
+                    $wpdb->query('LOCK TABLE activation_codes WRITE');
                     $rows = $wpdb->get_results('SELECT * FROM activation_codes WHERE is_used != 1 LIMIT 2');
+
                     if (count($rows) < 2) {
                         wp_mail($this->get_option('admin_email'), 'Codes 3 mois', 'Nombre restant insuffisant. Commande concernée : ' . $order->get_id());
+
+                        $wpdb->query('UNLOCK TABLES');
+
                         return;
                     }
                     $this->activationCode = array($rows[0]->Numerocarte, $rows[1]->Numerocarte);
@@ -78,6 +84,9 @@ class Happybreak_Email_Customer_Instructions extends WC_Email
 
                     $wpdb->update('activation_codes', array('is_used' => 1), array('carteund' => $rows[0]->carteund));
                     $wpdb->update('activation_codes', array('is_used' => 1), array('carteund' => $rows[1]->carteund));
+
+                    $wpdb->query('UNLOCK TABLES');
+                    
                 }else {
                     $activationCodeMeta = array_combine(array(0, 1), $activationCodeMeta);
                     $this->activationCode = array($activationCodeMeta[0]->value, $activationCodeMeta[1]->value);
