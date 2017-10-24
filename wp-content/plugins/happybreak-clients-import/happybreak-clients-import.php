@@ -314,6 +314,14 @@ function happybreak_add_adress_to_field_order_admin(array $fields){
         'required' => false
     );
 
+    $fields['first_name']['custom_attributes'] = array('required' => true);
+    $fields['last_name']['custom_attributes'] = array('required' => true);
+    $fields['address_1']['custom_attributes'] = array('required' => true);
+    $fields['city']['custom_attributes'] = array('required' => true);
+    $fields['postcode']['custom_attributes'] = array('required' => true);
+    $fields['email']['custom_attributes'] = array('required' => true);
+    $fields['phone']['custom_attributes'] = array('required' => true);
+
 
     return $fields;
 }
@@ -336,13 +344,19 @@ function happybreak_add_phone_to_field_order_admin(array $fields){
 
     $fields['phone'] = array(
         'label' => __("Phone", 'woocommerce'),
-        'required' => false
+        'required' => true
     );
 
     $fields['additional_phone'] = array(
         'label' => __("Phone", 'woocommerce') . ' 2',
         'required' => false
     );
+
+    $fields['first_name']['custom_attributes'] = array('required' => true);
+    $fields['last_name']['custom_attributes'] = array('required' => true);
+    $fields['address_1']['custom_attributes'] = array('required' => true);
+    $fields['city']['custom_attributes'] = array('required' => true);
+    $fields['postcode']['custom_attributes'] = array('required' => true);
 
     return $fields;
 }
