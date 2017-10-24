@@ -751,8 +751,19 @@ function happybreak_add_instrunctions_email_class($emailClasses)
 
 add_filter('woocommerce_email_classes', 'happybreak_add_instrunctions_email_class');
 
+/**
+ * Remove WP user registration related user emails
+ */
 add_filter('send_password_change_email', '__return_false');
 add_filter('send_email_change_email', '__return_false');
 remove_action('after_password_reset', 'wp_password_change_notification');
 remove_action('register_new_user', 'wp_send_new_user_notifications');
 remove_action('edit_user_created_user', 'wp_send_new_user_notifications', 10, 2);
+
+function happybreak_display_secured_payment_bloc()
+{
+    $pluginBaseUrl = plugin_dir_url(__FILE__);
+    include_once 'templates/secure-payment.php';
+}
+
+add_action('woocommerce_credit_card_form_start', 'happybreak_display_secured_payment_bloc');

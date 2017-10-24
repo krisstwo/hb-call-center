@@ -10757,6 +10757,29 @@ form#order_review {
     background: none;
 }
 
+#payment .payment_methods .secure-payment {
+    padding: 30px;
+    background: #e6f7cf;
+    color: #80b618;
+    font-size: 1rem;
+    margin: 0 60px;
+}
+#payment .payment_methods .secure-payment .secure-logos {
+    padding-top: 20px;
+    text-align: center;
+}
+
+#payment .payment_methods .secure-payment .secure-logo {
+    display: inline-block;
+    margin-right: 20px;
+    vertical-align: middle;
+}
+
+#payment .payment_methods .secure-payment .secure-logo img {
+    max-height: 2em;
+    float: none;
+}
+
 /**
 Custom sytles END
  */
