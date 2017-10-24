@@ -17,7 +17,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
     <p> <?php _e('Nous avons bien pris en compte votre précommande passée le', 'happybreak'); ?>
         <?php
         $cls_date = new DateTime($order->get_date_created());
-        echo $cls_date->format('d/m/Y -  h:i'); ?>
+        echo $cls_date->format('d/m/Y'); ?>
         <?php _e('et nous vous en remercions.', 'happybreak'); ?>
 
         <?php

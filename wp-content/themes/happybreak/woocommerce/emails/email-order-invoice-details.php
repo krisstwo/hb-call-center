@@ -30,7 +30,7 @@ do_action( 'woocommerce_email_before_order_table', $order, $sent_to_admin, $plai
 <br/>
     <?php _e( 'Date de la pré-commande Happybreak', 'happybreak' ); ?> : <?php
     $cls_date = new DateTime($order->get_date_created());
-    echo $cls_date->format('d/m/Y h:i');
+    echo $cls_date->format('d/m/Y');
      ?>
 </p>
 
