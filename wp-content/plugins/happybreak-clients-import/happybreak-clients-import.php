@@ -254,7 +254,7 @@ add_action('add_meta_boxes_shop_order', 'happybreak_remove_metabox_for_nonadmins
 function happybreak_add_additional_address_to_user_edit_form($fields)
 {
     $additional = array(
-        'label' => __("Complément d'adresse", 'woocommerce'),
+        'label' => __("Complément d'adresse", 'happybreak'),
         'required' => false
     );
     // set information after adress 2
@@ -265,7 +265,7 @@ function happybreak_add_additional_address_to_user_edit_form($fields)
 
 
     $additional = array(
-        'label' => __("Complément d'adresse", 'woocommerce'),
+        'label' => __("Complément d'adresse", 'happybreak'),
         'required' => false
     );
     // set information after adress 2
