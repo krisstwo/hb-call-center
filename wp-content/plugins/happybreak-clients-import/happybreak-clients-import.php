@@ -262,6 +262,11 @@ function happybreak_add_additional_address_to_user_edit_form($fields)
         array("additional_address" => $additional) +
         array_slice($fields['billing']['fields'], 1, count($fields['billing']['fields']) - 1, true) ;
 
+    $fields['billing']['fields']['billing_additional_phone'] = array(
+        'label' => __("Phone", 'woocommerce') . ' 2',
+        'required' => false
+    );
+
 
 
     $additional = array(
@@ -276,6 +281,11 @@ function happybreak_add_additional_address_to_user_edit_form($fields)
 
     $fields['shipping']['fields']['shipping_phone'] = array(
         'label' => __("Phone", 'woocommerce'),
+        'required' => false
+    );
+
+    $fields['shipping']['fields']['shipping_additional_phone'] = array(
+        'label' => __("Phone", 'woocommerce') . ' 2',
         'required' => false
     );
 
@@ -295,12 +305,17 @@ function happybreak_add_adress_to_field_order_admin(array $fields){
         'required' => false
     );
     // set information after adress 2
-    $orderTable = array_slice($fields, 0, 5, true) +
+    $fields = array_slice($fields, 0, 5, true) +
         array("additional_address" => $aditionel) +
-        array_slice($fields, 1, count($fields) - 1, true) ;
+        array_slice($fields, 1, count($fields) - 1, true);
+
+    $fields['additional_phone'] = array(
+        'label' => __("Phone", 'woocommerce') . ' 2',
+        'required' => false
+    );
 
 
-    return $orderTable;
+    return $fields;
 }
 add_filter('woocommerce_admin_billing_fields', 'happybreak_add_adress_to_field_order_admin');
 
@@ -324,9 +339,34 @@ function happybreak_add_phone_to_field_order_admin(array $fields){
         'required' => false
     );
 
+    $fields['additional_phone'] = array(
+        'label' => __("Phone", 'woocommerce') . ' 2',
+        'required' => false
+    );
+
     return $fields;
 }
 add_filter('woocommerce_admin_shipping_fields', 'happybreak_add_phone_to_field_order_admin');
+
+function happybreak_add_extrafields_to_customer_details($data)
+{
+    $extraFields = array_filter($data['meta_data'], function ($item) {
+        return in_array($item->key, array('billing_additional_phone', 'shipping_additional_phone'));
+    });
+    if (!empty($extraFields)) {
+        foreach ($extraFields as $field) {
+            if (strpos($field->key, 'billing_') === 0) {
+                $data['billing'][str_replace('billing_', '', $field->key)] = $field->value;
+            } elseif (strpos($field->key, 'shipping_') === 0) {
+                $data['shipping'][str_replace('shipping_', '', $field->key)] = $field->value;
+            }
+        }
+    }
+
+    return $data;
+}
+
+add_filter('woocommerce_ajax_get_customer_details', 'happybreak_add_extrafields_to_customer_details');
 
 /**
  * add custom field to shipping adress
