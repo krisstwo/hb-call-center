@@ -421,6 +421,24 @@ function happybreak_search_customer_by_phone($query_args, $term)
         'compare' => 'LIKE',
     );
 
+    $query_args['meta_query'][] = array(
+        'key' => 'shipping_phone',
+        'value' => substr($term, 2),
+        'compare' => 'LIKE',
+    );
+
+    $query_args['meta_query'][] = array(
+        'key' => 'billing_additional_phone',
+        'value' => substr($term, 2),
+        'compare' => 'LIKE',
+    );
+
+    $query_args['meta_query'][] = array(
+        'key' => 'shipping_additional_phone',
+        'value' => substr($term, 2),
+        'compare' => 'LIKE',
+    );
+
     return $query_args;
 }
 
