@@ -163,11 +163,33 @@ function happybreak_allow_own_order_edit_only($allcaps, $caps, $args, $user)
 
 add_filter('user_has_cap', 'happybreak_allow_own_order_edit_only', 10, 4);
 
-function Is_Backend_LOGIN()
+function happybreak_disallow_product_edit_for_nonadmins($allcaps, $caps, $args, $user)
 {
-    $ABSPATH_MY = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, ABSPATH);
-    return ((in_array($ABSPATH_MY . 'wp-login.php', get_included_files()) || in_array($ABSPATH_MY . 'wp-register.php', get_included_files())) || $GLOBALS['pagenow'] === 'wp-login.php' || $_SERVER['PHP_SELF'] == '/wp-login.php');
+    //admin or super agent pass
+    if (!empty($allcaps['delete_users']))
+        return $allcaps;
+
+    /**
+     * @var $user WP_User
+     */
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['post_ID'];
+        $action = $_POST['action'];
+    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $id = $_GET['post'];
+        $action = $_GET['action'];
+    }
+
+    if (in_array($action, array('edit', 'editpost')) && get_post_type($id) === 'product') {
+        unset($allcaps['edit_product']);
+        unset($allcaps['edit_others_products']);
+        unset($allcaps['edit_published_products']);
+    }
+
+    return $allcaps;
 }
+
+add_filter('user_has_cap', 'happybreak_disallow_product_edit_for_nonadmins', 10, 4);
 
 /**
  * redirect user to custom page afetr payement

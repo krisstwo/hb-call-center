@@ -83,3 +83,16 @@ body.role-agent #woocommerce-order-items .edit-order-item {
 #wp-admin-bar-new-content {
     display: none;
 }
+
+body.role-agent #order_line_items .item,
+body.role-agent #order_shipping_line_items .item {
+    pointer-events: none;
+    cursor: default;
+}
+
+body.role-agent #order_line_items .item a.wc-order-item-name {
+    pointer-events: none;
+    cursor: default;
+    color: inherit;
+    text-decoration: none;
+}
