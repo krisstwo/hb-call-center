@@ -12,6 +12,7 @@ define('CLIENT_IMPORT', plugin_dir_path(__FILE__));
 define('CALL_CENTER_AGENT_ROLE', 'call_center_agent');
 define('CALL_CENTER_SUPER_AGENT_ROLE', 'call_center_super_agent');
 define('ORDER_CALL_CENTER_AGENT_USER_ID', 'call_center_agent_user_id');
+define('PRODUCT_SHIPPING_TAG_SLUG', 'livraison');
 
 
 /**
@@ -684,8 +685,11 @@ function happybreak_force_add_shipping_after_add_item($item_id, $item)
          * @var $product WC_Product
          */
         $product = $item->get_product();
+        //product must has shipping tag
+        $tagIds = $product->get_tag_ids();
+        $shippingTerm = get_term_by('slug', PRODUCT_SHIPPING_TAG_SLUG, 'product_tag');
 
-        if ($product->get_slug() === 'carte-privilege-1-an-2-pour-le-prix-dune') {
+        if ($shippingTerm && in_array($shippingTerm->term_id, $tagIds)) {
             $shippingRate = new WC_Shipping_Rate();
             $shippingRate->cost = 2.9 * $item->get_quantity();
             $shippingItem = new WC_Order_Item_Shipping();
