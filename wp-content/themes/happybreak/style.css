@@ -10762,7 +10762,7 @@ form#order_review {
     background: #e6f7cf;
     color: #80b618;
     font-size: 1rem;
-    margin: 0 60px;
+    margin: 0 80px 20px;
 }
 #payment .payment_methods .secure-payment .secure-logos {
     padding-top: 20px;
@@ -10778,6 +10778,18 @@ form#order_review {
 #payment .payment_methods .secure-payment .secure-logo img {
     max-height: 2em;
     float: none;
+}
+
+#payment .payment_methods .cc-type img {
+    max-height: initial;
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+#payment .payment_methods .cc-type input {
+    vertical-align: middle;
 }
 
 /**

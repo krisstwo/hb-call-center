@@ -793,6 +793,7 @@ function happybreak_display_secured_payment_bloc()
 {
     $pluginBaseUrl = plugin_dir_url(__FILE__);
     include_once 'templates/secure-payment.php';
+    include_once 'templates/cc-type.php';
 }
 
 add_action('woocommerce_credit_card_form_start', 'happybreak_display_secured_payment_bloc');
