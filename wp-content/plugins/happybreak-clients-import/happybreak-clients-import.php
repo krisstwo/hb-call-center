@@ -660,6 +660,23 @@ function happybreak_admin_role_body_class($classes)
 
 add_filter('admin_body_class', 'happybreak_admin_role_body_class');
 
+function happybreak_admin_order_status_body_class($classes)
+{
+    $screen = get_current_screen();
+    if ($screen->id === 'shop_order' && ! empty($_GET['post'])) {
+        $order = wc_get_order($_GET['post']);
+
+        if(!$order)
+            return $classes;
+
+        $classes .= ' order-status-' . $order->get_status();
+    }
+
+    return $classes;
+}
+
+add_filter('admin_body_class', 'happybreak_admin_order_status_body_class');
+
 function happybreak_filter_available_payment_methods($availableMethods)
 {
     if (!is_add_payment_method_page() && !is_super_admin(get_current_user_id()) && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE)) {
