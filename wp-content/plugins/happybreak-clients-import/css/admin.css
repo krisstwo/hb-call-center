@@ -100,3 +100,7 @@ body.role-agent #order_line_items .item a.wc-order-item-name {
 body.role-agent[class*="order-status-"] .edit_address {
     display: none;
 }
+
+#woocommerce-items-modal {
+    display: none;
+}

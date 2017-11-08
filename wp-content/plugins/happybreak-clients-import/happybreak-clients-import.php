@@ -225,18 +225,23 @@ function happybreak_remove_metabox_for_nonadmins()
         remove_meta_box( 'postcustom' , 'shop_order' , 'normal' );
     }
 
+    //remove unused metaboxes
     remove_meta_box('woocommerce-order-downloads', 'shop_order', 'normal');
     remove_meta_box('wpo_wcpdf-data-input-box', 'shop_order', 'normal');
     remove_meta_box('wpo_wcpdf-box', 'shop_order', 'side');
 
-    //relocate order metaboxes
     require_once 'includes/woocommerce/admin/meta-boxes/class-happybreak-meta-box-order-actions.php';
     require_once 'includes/woocommerce/admin/meta-boxes/class-happybreak-meta-box-order-payment.php';
+    require_once 'includes/woocommerce/admin/meta-boxes/class-happybreak-meta-box-order-items-modal.php';
+
+    //relocate order metaboxes
     $wp_meta_boxes['shop_order']['normal']['low']['woocommerce-order-actions'] = $wp_meta_boxes['shop_order']['side']['high']['woocommerce-order-actions'];
     unset($wp_meta_boxes['shop_order']['side']['high']['woocommerce-order-actions']);
     $wp_meta_boxes['shop_order']['normal']['low']['woocommerce-order-actions']['callback'] = 'Happybreak_Meta_Box_Order_Actions::output';
     if($order->needs_payment())
         add_meta_box('woocommerce-order-payment', '4. ' . __('Mode paiement', 'happybreak'), 'Happybreak_Meta_Box_Order_Payment::output', 'shop_order', 'normal', 'low');
+
+    add_meta_box('woocommerce-items-modal', 'woocommerce-items-modal', 'Happybreak_Meta_Box_Order_Items_Modal::output', 'shop_order', 'normal', 'high');
 
 
     //change order metaboxes titles
