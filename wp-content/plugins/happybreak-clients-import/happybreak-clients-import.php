@@ -802,3 +802,12 @@ function happybreak_display_secured_payment_bloc()
 }
 
 add_action('woocommerce_credit_card_form_start', 'happybreak_display_secured_payment_bloc');
+
+function happybreak_display_braintree_secured_payment_bloc()
+{
+    $pluginBaseUrl = plugin_dir_url(__FILE__);
+    include_once 'templates/braintree-secure-payment.php';
+    include_once 'templates/braintree-cc-type.php';
+}
+
+add_filter( 'wc_braintree_credit_card_payment_form_description', 'happybreak_display_braintree_secured_payment_bloc');
