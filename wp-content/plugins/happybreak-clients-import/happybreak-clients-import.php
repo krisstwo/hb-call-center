@@ -39,7 +39,7 @@ function redirect_guest()
 {
     global $wp;
 
-    if (empty($_GET['pay_for_order']) && empty($wp->query_vars['order-received']) && !is_page('thank-you') && !is_user_logged_in() && !is_super_admin(get_current_user_id()) && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE)) {
+    if (empty($_GET['pay_for_order']) && empty($wp->query_vars['order-received']) && !is_page('thank-you') && !is_user_logged_in() && !is_super_admin(get_current_user_id()) && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE) && !members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE)) {
         wp_redirect(' https://www.happybreak.com');
         exit();
     }
@@ -207,7 +207,7 @@ function happybreak_add_guest_caps($allcaps, $caps, $args, $user)
     /**
      * @var $user WP_User
      */
-    if ((int)$user->ID != 0 && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE) && empty($allcaps['delete_users']))
+    if ((int)$user->ID != 0 && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE) && !members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE) && empty($allcaps['delete_users']))
         return $allcaps;
 
     return array_merge($allcaps, array('pay_for_order' => true));
@@ -657,7 +657,7 @@ add_filter('wc_order_statuses', 'happybreak_remove_order_status_for_nonadmins');
 
 function happybreak_admin_role_body_class($classes)
 {
-    if (members_current_user_has_role(CALL_CENTER_AGENT_ROLE))
+    if (members_current_user_has_role(CALL_CENTER_AGENT_ROLE) || members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE))
         $classes .= ' role-agent';
 
     return $classes;
@@ -684,7 +684,7 @@ add_filter('admin_body_class', 'happybreak_admin_order_status_body_class');
 
 function happybreak_filter_available_payment_methods($availableMethods)
 {
-    if (!is_add_payment_method_page() && !is_super_admin(get_current_user_id()) && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE)) {
+    if (!is_add_payment_method_page() && !is_super_admin(get_current_user_id()) && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE) && !members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE)) {
         unset($availableMethods['bacs']);
         unset($availableMethods['cheque']);
     }
