@@ -811,3 +811,20 @@ function happybreak_display_braintree_secured_payment_bloc()
 }
 
 add_filter( 'wc_braintree_credit_card_payment_form_description', 'happybreak_display_braintree_secured_payment_bloc');
+
+/**
+ * Notify admin of completed orders
+ *
+ * @param $orderId int
+ * @param $order WC_Order
+ */
+function happybreak_notify_admin_of_completed_order($orderId, $order)
+{
+    $to   = get_bloginfo('admin_email');
+    $body = "Bonjour,";
+    $body .= "\n\nLa commande #$orderId du {$order->get_date_created()->format('Y/m/d H:i:s')} a été terminée.";
+    $body .= "\n\nLien pour éditer la commnde : " . get_edit_post_link($orderId, null);
+    wp_mail($to, "Commande #$orderId terminée", $body);
+}
+
+add_action('woocommerce_order_status_completed', 'happybreak_notify_admin_of_completed_order', 10, 2);
