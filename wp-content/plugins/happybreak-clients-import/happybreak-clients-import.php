@@ -505,10 +505,52 @@ function happybreak_hide_order_columns_for_nonadmins($columns)
         unset($columns['order_notes']);
     }
 
+    $columns['date_completed'] = 'Date "Terminée"';
+
     return $columns;
 }
 
 add_filter('manage_edit-shop_order_columns', 'happybreak_hide_order_columns_for_nonadmins', 1000);
+
+function happybreak_order_list_sortable_columns($columns)
+{
+    $columns['date_completed'] = 'date_completed';
+
+    return $columns;
+}
+
+add_filter('manage_edit-shop_order_sortable_columns', 'happybreak_order_list_sortable_columns');
+
+function happybreak_order_list_order_by($query)
+{
+    if ( ! is_admin()) {
+        return;
+    }
+
+    $orderby = $query->get('orderby');
+
+    if ('date_completed' == $orderby) {
+        $query->set('meta_key', '_date_completed');
+        $query->set('orderby', 'meta_value');
+    }
+}
+
+add_action('pre_get_posts', 'happybreak_order_list_order_by');
+
+function happybreak_order_list_date_completed_column($column)
+{
+    global $post;
+
+    if ($column !== 'date_completed') {
+        return;
+    }
+
+    $order = wc_get_order($post->ID);
+
+    echo $order->get_date_completed() ? $order->get_date_completed()->format('d/m/Y H:i:s') : 'pas encore terminée';
+}
+
+add_action('manage_shop_order_posts_custom_column', 'happybreak_order_list_date_completed_column');
 
 function happybreak_hide_pdf_actions_for_nonadmins($actions)
 {
