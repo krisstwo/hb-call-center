@@ -510,6 +510,39 @@ function happybreak_hide_order_columns_for_nonadmins($columns)
 
 add_filter('manage_edit-shop_order_columns', 'happybreak_hide_order_columns_for_nonadmins', 1000);
 
+function happybreak_register_expedited_order_status()
+{
+    register_post_status('wc-expedited', array(
+        'label' => 'Expédiée',
+        'public' => true,
+        'show_in_admin_status_list' => true,
+        'show_in_admin_all_list' => true,
+        'exclude_from_search' => false,
+        'label_count' => _n_noop('Expédiée <span class="count">(%s)</span>', 'Expédiées <span class="count">(%s)</span>')
+    ));
+}
+
+add_action('init', 'happybreak_register_expedited_order_status');
+
+function happybreak_add_expedited_to_order_statuses($orderStatuses)
+{
+
+    $newOrderStatuses = array();
+
+    foreach ($orderStatuses as $key => $status) {
+
+        $newOrderStatuses[$key] = $status;
+
+        if ('wc-completed' === $key) {
+            $newOrderStatuses['wc-expedited'] = 'Expediée';
+        }
+    }
+
+    return $newOrderStatuses;
+}
+
+add_filter('wc_order_statuses', 'happybreak_add_expedited_to_order_statuses');
+
 function happybreak_hide_pdf_actions_for_nonadmins($actions)
 {
     if (!is_super_admin(get_current_user_id())) {
