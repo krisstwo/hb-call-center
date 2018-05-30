@@ -505,7 +505,10 @@ function happybreak_hide_order_columns_for_nonadmins($columns)
         unset($columns['order_notes']);
     }
 
+    //Add completed date column
     $columns['date_completed'] = 'Date "Terminée"';
+    //Add agent column
+    $columns['agent'] = 'Agent';
 
     return $columns;
 }
@@ -541,13 +544,19 @@ function happybreak_order_list_date_completed_column($column)
 {
     global $post;
 
-    if ($column !== 'date_completed') {
-        return;
-    }
-
     $order = wc_get_order($post->ID);
 
-    echo $order->get_date_completed() ? $order->get_date_completed()->format('d/m/Y H:i:s') : 'pas encore terminée';
+    if ($column == 'date_completed') {
+        echo $order->get_date_completed() ? $order->get_date_completed()->format('d/m/Y H:i:s') : 'pas encore terminée';
+    }
+
+
+    if ($column == 'agent') {
+        $agentId = $order->get_meta(ORDER_CALL_CENTER_AGENT_USER_ID, true);
+        $user    = get_userdata($agentId);
+
+        printf('%s: %s (login: %s)', $agentId, $user->display_name, $user->user_login);
+    }
 }
 
 add_action('manage_shop_order_posts_custom_column', 'happybreak_order_list_date_completed_column');
@@ -903,3 +912,27 @@ function happybreak_notify_admin_of_completed_order($orderId, $order)
 }
 
 add_action('woocommerce_order_status_completed', 'happybreak_notify_admin_of_completed_order', 10, 2);
+
+function happybreak_add_custom_fields_to_export($map)
+{
+    $map['call_center_agent_user_id']            = array('label' => 'ID Agent', 'checked' => 1);
+    $map['call_center_agent_user_id']['segment'] = array('label' => 'ID Agent', 'checked' => 1);
+    $map['call_center_agent_user_id']['colname'] = 'ID Agent';
+    $map['call_center_agent_user_id']['default'] = 1;
+
+    return $map;
+}
+
+add_filter('woe_get_order_fields_misc', 'happybreak_add_custom_fields_to_export');
+
+function happybreak_order_export_field_agent($fieldValue, $order, $fieldName)
+{
+    if ($fieldName == 'call_center_agent_user_id') {
+        $userData   = get_userdata($fieldValue);
+        $fieldValue = sprintf('ID : %s %s', $fieldValue, $userData->display_name);
+    }
+
+    return $fieldValue;
+}
+
+add_action('woe_get_order_value_call_center_agent_user_id', 'happybreak_order_export_field_agent', 10, 3);
