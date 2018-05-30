@@ -832,3 +832,27 @@ function happybreak_display_braintree_secured_payment_bloc()
 }
 
 add_filter( 'wc_braintree_credit_card_payment_form_description', 'happybreak_display_braintree_secured_payment_bloc');
+
+function happybreak_add_custom_fields_to_export($map)
+{
+    $map['call_center_agent_user_id'] = array( 'label' => 'ID Agent', 'checked' => 1 );
+    $map['call_center_agent_user_id']['segment'] = array( 'label' => 'ID Agent', 'checked' => 1 );
+    $map['call_center_agent_user_id']['colname'] = 'ID Agent';
+    $map['call_center_agent_user_id']['default'] = 1;
+
+    return $map;
+}
+
+add_filter('woe_get_order_fields_misc', 'happybreak_add_custom_fields_to_export');
+
+function happybreak_order_export_field_agent($fieldValue, $order, $fieldName)
+{
+    if($fieldName == 'call_center_agent_user_id'){
+        $userData = get_userdata($fieldValue);
+        $fieldValue = sprintf('ID : %s %s', $fieldValue, $userData->display_name);
+    }
+
+    return $fieldValue;
+}
+
+add_action('woe_get_order_value_call_center_agent_user_id', 'happybreak_order_export_field_agent', 10, 3);
