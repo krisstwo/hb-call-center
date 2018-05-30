@@ -505,10 +505,31 @@ function happybreak_hide_order_columns_for_nonadmins($columns)
         unset($columns['order_notes']);
     }
 
+    //Add agent column
+    $columns['agent'] = 'Agent';
+
     return $columns;
 }
 
 add_filter('manage_edit-shop_order_columns', 'happybreak_hide_order_columns_for_nonadmins', 1000);
+
+function happybreak_order_list_agent_column($column)
+{
+    global $post;
+
+    if($column !== 'agent')
+        return;
+
+    $order = wc_get_order($post->ID);
+
+    $agentId = $order->get_meta(ORDER_CALL_CENTER_AGENT_USER_ID, true);
+    $user = get_userdata($agentId);
+
+    printf('%s: %s (login: %s)', $agentId, $user->display_name, $user->user_login);
+
+}
+
+add_action('manage_shop_order_posts_custom_column', 'happybreak_order_list_agent_column');
 
 function happybreak_hide_pdf_actions_for_nonadmins($actions)
 {
