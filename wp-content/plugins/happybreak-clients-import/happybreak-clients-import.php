@@ -663,6 +663,12 @@ function happybreak_add_order_email_actions($actions, WC_Order $order)
             'name'      => __( 'Renvoyer la commande', 'happybreak' ),
             'action'    => 'pending-email',
         );
+    } else if ($order->get_status() === 'completed') {
+        $actions['mark-expedited'] = array(
+            'url' => wp_nonce_url(admin_url('admin-ajax.php?order_id=' . $order->ID . '&action=woocommerce_mark_order_status&status=expedited'), 'woocommerce-mark-order-status'),
+            'name' => __('Marquer expédiée', 'happybreak'),
+            'action' => 'mark-expedited',
+        );
     }
 
     return $actions;

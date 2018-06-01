@@ -17,7 +17,8 @@ body.role-agent #woocommerce-order-data .form-field.wc-order-status {
 }
 
 .order_actions .on-hold-email,
-.order_actions .pending-email {
+.order_actions .pending-email,
+.order_actions .mark-expedited {
     display: block;
     text-indent: -9999px;
     position: relative;
@@ -29,7 +30,8 @@ body.role-agent #woocommerce-order-data .form-field.wc-order-status {
 }
 
 .order_actions .on-hold-email::after,
-.order_actions .pending-email::after {
+.order_actions .pending-email::after,
+.order_actions .mark-expedited::after {
     font-family: Dashicons;
     speak: none;
     font-weight: 400;
@@ -51,6 +53,33 @@ body.role-agent #woocommerce-order-data .form-field.wc-order-status {
 .order_actions .on-hold-email::after,
 .order_actions .pending-email::after {
     content: "\f466";
+}
+
+.order_actions .mark-expedited::after {
+    content: "\f310";
+}
+
+.widefat .column-order_status mark.expedited::after {
+    font-family: WooCommerce;
+    speak: none;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    text-indent: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.widefat .column-order_status mark.expedited::after {
+    content: '\e01a';
+    color: #2ea2cc;
 }
 
 .order_actions li .save_order {
