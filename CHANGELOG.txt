@@ -1,0 +1,8 @@
+### 1.1.0 2018-06-11 :
+ * #1: Notification par email les commandes en attente passées à terminé
+ * #2: Liste commandes : colonne date passage à terminé
+ * #3: Statut commande "expediée"
+ * #4: Colonne agent dans liste commande et export
+
+### 1.0.0 :
+ * stable version for up to march 2018
