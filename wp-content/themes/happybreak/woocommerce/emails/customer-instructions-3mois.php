@@ -26,8 +26,12 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
     <li><?php _e( "Entrez votre code unique dans la case prévue à cet effet et validez", 'happybreak' ); ?></li>
 </ul>
 <p></p>
-<p style="text-align: center;"><?php _e( "CODE D’ACTICATION POUR VOTRE 1er  E-CARTE", 'happybreak' ); ?> : <?php echo $activation_code[0]; ?></p>
-<p style="text-align: center;"><?php _e( "CODE D’ACTICATION POUR VOTRE 2e  E-CARTE", 'happybreak' ); ?> : <?php echo $activation_code[1]; ?></p>
+<?php if (count($activation_code) == 1): ?>
+    <p style="text-align: center;"><?php _e( "CODE D’ACTICATION POUR VOTRE E-CARTE", 'happybreak' ); ?> : <?php echo $activation_code[0]; ?></p>
+<?php elseif (count($activation_code) == 2): ?>
+    <p style="text-align: center;"><?php _e( "CODE D’ACTICATION POUR VOTRE 1er  E-CARTE", 'happybreak' ); ?> : <?php echo $activation_code[0]; ?></p>
+    <p style="text-align: center;"><?php _e( "CODE D’ACTICATION POUR VOTRE 2e  E-CARTE", 'happybreak' ); ?> : <?php echo $activation_code[1]; ?></p>
+<?php endif; ?>
 <p></p>
 <p><?php _e( "Vous venez d’activer votre e-carte 3 mois ? Regardez vos emails vous allez recevoir votre e-carte 3 mois au format PDF.", 'happybreak' ); ?></p>
 <p><strong><?php _e( "Rappel : la durée de validité de la carte s’enclenche dès que vous avez activé votre carte sur le site www.happybreak.com/opération2pour1", 'happybreak' ); ?></strong></p>
