@@ -19,6 +19,7 @@ define('CALL_CENTER_INTERNAL_AGENT_ROLE', 'call_center_internal_agent');
 define('CALL_CENTER_SUPER_AGENT_ROLE', 'call_center_super_agent');
 define('ORDER_CALL_CENTER_AGENT_USER_ID', 'call_center_agent_user_id');
 define('PRODUCT_SHIPPING_TAG_SLUG', 'livraison');
+define('PRODUCT_SHIPPING_PRICE', 2.9);
 
 
 /**
@@ -853,35 +854,32 @@ function happybreak_force_add_shipping_after_add_item($item_id, $item)
     if (count($order->get_shipping_methods()))
         return;
 
-    $productItems = $order->get_items();
-    foreach ($productItems as $item) {
-        /**
-         * @var $item WC_Order_Item_Product
-         */
-        /**
-         * @var $product WC_Product
-         */
-        $product = $item->get_product();
-        //product must has shipping tag
-        $tagIds = $product->get_tag_ids();
-        $shippingTerm = get_term_by('slug', PRODUCT_SHIPPING_TAG_SLUG, 'product_tag');
+    /**
+     * @var $item WC_Order_Item_Product
+     */
+    /**
+     * @var $product WC_Product
+     */
+    $product = $item->get_product();
+    //product must has shipping tag
+    $tagIds = $product->get_tag_ids();
+    $shippingTerm = get_term_by('slug', PRODUCT_SHIPPING_TAG_SLUG, 'product_tag');
 
-        if ($shippingTerm && in_array($shippingTerm->term_id, $tagIds)) {
-            $shippingRate = new WC_Shipping_Rate();
-            $shippingRate->cost = 2.9 * $item->get_quantity();
-            $shippingItem = new WC_Order_Item_Shipping();
-            $shippingItem->set_shipping_rate($shippingRate);
-            $shippingItem->set_order_id($order_id);
-            $shippingItem->save();
-            $order = wc_get_order($order_id);
-        }
+    if ($shippingTerm && in_array($shippingTerm->term_id, $tagIds)) {
+        $shippingRate = new WC_Shipping_Rate();
+        $shippingRate->cost = PRODUCT_SHIPPING_PRICE * $item->get_quantity();
+        $shippingItem = new WC_Order_Item_Shipping();
+        $shippingItem->set_shipping_rate($shippingRate);
+        $shippingItem->set_order_id($order_id);
+        $shippingItem->save();
+        $order = wc_get_order($order_id);
     }
     
     $order->calculate_taxes();
     $order->calculate_totals(false);
 }
 
-add_action('woocommerce_saved_order_items', 'happybreak_force_add_shipping_after_add_item', 10, 2);
+add_action('woocommerce_ajax_add_order_item_meta', 'happybreak_force_add_shipping_after_add_item', 10, 2);
 
 function happybreak_item_add_force_calcualte_texes($item, $itemId)
 {
