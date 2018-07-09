@@ -40,11 +40,11 @@ class ImportCsv
      */
     public function runScript()
     {
-        require_once(CLIENT_IMPORT . 'LogFile.php');
+        require_once(PLUGIN_PATH . 'LogFile.php');
 
         // instance log
         $log = new LogFile();
-        $log->lfile(CLIENT_IMPORT . '/log/logfile.txt');
+        $log->lfile(PLUGIN_PATH . '/log/logfile.txt');
 
         $currentLineIndex = 0;
         $numberUserAdded = 0;
