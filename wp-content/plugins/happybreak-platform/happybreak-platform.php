@@ -786,7 +786,11 @@ add_filter('wc_order_statuses', 'happybreak_remove_order_status_for_nonadmins');
 
 function happybreak_admin_role_body_class($classes)
 {
-    if (members_current_user_has_role(CALL_CENTER_AGENT_ROLE) || members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE))
+    if (
+        members_current_user_has_role(CALL_CENTER_AGENT_ROLE)
+        || members_current_user_has_role(CALL_CENTER_INTERNAL_AGENT_ROLE)
+        || members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE)
+    )
         $classes .= ' role-agent';
 
     return $classes;
