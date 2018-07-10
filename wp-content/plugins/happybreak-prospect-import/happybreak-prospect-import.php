@@ -7,9 +7,9 @@
 /*
 Plugin Name: Happybreak prospects import
 Description: Import prospects from csv
-Version: 0.1
+Version: 1.3
 Author: Coffeeandbrackets.com
-Author URI: http:/coffeeandbrackets.com
+Author URI: http://coffeeandbrackets.com
 */
 
 define('PLUGIN_PATH', plugin_dir_path(__FILE__));

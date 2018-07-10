@@ -1,16 +1,18 @@
 <?php
+/**
+ * Coffee & Brackets software studio
+ * @author Mohamed KRISTOU <krisstwo@gmail.com>.
+ */
+
 /*
-Plugin Name: Import client
-Plugin URI: http://coffeeandbrackets.com
-Description: Un plugin import client csv to db
-Version: 0.1
+Plugin Name: Happybreak platform
+Description: Custom project behavious
 Author: Coffeeandbrackets.com
-Author URI: http:/coffeeandbrackets.com
-License: v1
+Version: 1.3
+Author URI: http://coffeeandbrackets.com
 */
 
-//TODO: plugin to be renamed
-//TODO: code to be organised
+//TODO: code to be organised from previous developer
 
 define('CALL_CENTER_AGENT_ROLE', 'call_center_agent');
 define('CALL_CENTER_SUPER_AGENT_ROLE', 'call_center_super_agent');
