@@ -140,11 +140,8 @@ add_filter('posts_where_paged', 'happybreak_force_filter_orders_by_agent', 10, 2
 function happybreak_allow_own_order_edit_only($allcaps, $caps, $args, $user)
 {
     //admin or super agent pass
-    if (!empty($allcaps['delete_users']) || members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE))
+    if ( ! empty($allcaps['delete_users']))
         return $allcaps;
-
-    //Deny, allow
-    unset($allcaps['edit_others_shop_orders']);
 
     /**
      * @var $user WP_User
@@ -157,8 +154,33 @@ function happybreak_allow_own_order_edit_only($allcaps, $caps, $args, $user)
         $action = $_GET['action'];
     }
 
-    if (in_array($action, array('edit', 'editpost')) && (int)get_post_meta($id, ORDER_CALL_CENTER_AGENT_USER_ID, true) === get_current_user_id()) {
-        $allcaps = array_merge($allcaps, array('edit_others_shop_orders' => true));
+    if (in_array($action, array('edit', 'editpost'))) {
+
+        //Deny, allow
+        unset($allcaps['edit_shop_orders']);
+        unset($allcaps['edit_others_shop_orders']);
+
+        
+        // Allow editing of agent orders by super agents, allow only own for the rest of roles
+        if (members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE)) {
+            $agentUsers    = get_users('role=' . CALL_CENTER_AGENT_ROLE);
+            $agentUsersIds = array();
+            foreach ($agentUsers as $agentUser) {
+                $agentUsersIds[] = $agentUser->ID;
+            }
+
+
+            if (
+            in_array(
+                (int)get_post_meta($id, ORDER_CALL_CENTER_AGENT_USER_ID, true),
+                array_merge($agentUsersIds, array(get_current_user_id()))
+            )
+            ) {
+                $allcaps = array_merge($allcaps, array('edit_shop_orders' => true, 'edit_others_shop_orders' => true));
+            }
+        } else if ((int)get_post_meta($id, ORDER_CALL_CENTER_AGENT_USER_ID, true) === get_current_user_id()) {
+            $allcaps = array_merge($allcaps, array('edit_shop_orders' => true, 'edit_others_shop_orders' => true));
+        }
     }
 
     return $allcaps;
