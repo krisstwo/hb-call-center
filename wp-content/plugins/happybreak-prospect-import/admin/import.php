@@ -50,10 +50,12 @@ $errorFiles  = glob($wpUploadDir['basedir'] . '/happybreak-prospects-import/*.cs
                 ?>
                 <li>
                 <span><?= __('Exécution du', 'happybreak-prospect-import'); ?> : <?= date_create_from_format('YmdHis',
-                        str_replace('.csv', '', basename($file)))->format('Y/m/d H:i:s'); ?></span> - <a
-                            href="<?= $wpUploadDir['baseurl'] . '/happybreak-prospects-import/' . basename($file); ?>"
-                            target="_blank"><?= basename($file); ?></a> - <a
-                            href="<?= wp_nonce_url(admin_url('admin-post.php') . '?action=happybreak-prospect-import-delete-csv&name=' . basename($file),
+                        str_replace('.csv', '', basename($file)))->format('Y/m/d H:i:s'); ?></span>
+                    - <a href="<?= $wpUploadDir['baseurl'] . '/happybreak-prospects-import/' . basename($file); ?>"
+                            target="_blank"><?= basename($file); ?></a>
+                    - <a href="<?= $wpUploadDir['baseurl'] . '/happybreak-prospects-import/' . str_replace('.csv', '.log', basename($file)); ?>"
+                         target="_blank"><?= str_replace('.csv', '.log', basename($file)); ?></a>
+                    - <a href="<?= wp_nonce_url(admin_url('admin-post.php') . '?action=happybreak-prospect-import-delete-csv&name=' . basename($file),
                                 'happybreak-prospect-import-delete-csv'); ?>" title="<?= __('Supprimer', 'happybreak-prospect-import'); ?>"><span
                                 class="dashicons dashicons-dismiss"></span></a>
                 </li>
