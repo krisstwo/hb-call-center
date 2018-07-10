@@ -8,26 +8,14 @@ Author: Coffeeandbrackets.com
 Author URI: http:/coffeeandbrackets.com
 License: v1
 */
-define('PLUGIN_PATH', plugin_dir_path(__FILE__));
+
+//TODO: plugin to be renamed
+//TODO: code to be organised
+
 define('CALL_CENTER_AGENT_ROLE', 'call_center_agent');
 define('CALL_CENTER_SUPER_AGENT_ROLE', 'call_center_super_agent');
 define('ORDER_CALL_CENTER_AGENT_USER_ID', 'call_center_agent_user_id');
 define('PRODUCT_SHIPPING_TAG_SLUG', 'livraison');
-
-
-/**
- * run script import client
- */
-function my_custom_url_handler()
-{
-    if ($_SERVER["REQUEST_URI"] == '/import_client') {
-        require_once(PLUGIN_PATH . 'ImportCsv.php');
-        new ImportCsv();
-        exit(0);
-    }
-}
-
-add_action('parse_request', 'my_custom_url_handler');
 
 
 /**
