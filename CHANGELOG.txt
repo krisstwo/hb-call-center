@@ -1,3 +1,7 @@
+### 1.3.0 2018-07-10 :
+ * #8 : Assitant d'import de fichier clients
+ * #9 : Agent interne
+
 ### 1.1.0 2018-06-11 :
  * #1: Notification par email les commandes en attente passées à terminé
  * #2: Liste commandes : colonne date passage à terminé
