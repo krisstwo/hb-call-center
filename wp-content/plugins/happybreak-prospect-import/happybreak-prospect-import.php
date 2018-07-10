@@ -103,7 +103,7 @@ function hpi_prospects_import_process()
 
         // Run import
         try {
-            require_once 'hpi_Import.php';
+            require_once 'Hpi_Import.php';
             new Hpi_Import($_FILES['happybreak-prospect-import-file']['tmp_name'], $skipLines);
             $_SESSION['happybreak-prospect-import-notices']['success'][] = __('Fichier importé avec succés ! (Voir plus bas s\'il y a eu des lignes rejetées)',
                 'happybreak-prospect-import');
@@ -127,7 +127,7 @@ function hpi_prospects_import_delete_csv()
     if (wp_verify_nonce($_GET['_wpnonce'],
             'happybreak-prospect-import-delete-csv') && current_user_can('manage_options')) {
         if ( ! empty($_GET['name'])) {
-            require_once 'hpi_Import.php';
+            require_once 'Hpi_Import.php';
 
             // Abort if trying to traverse
             $name = sanitize_text_field($_GET['name']);
@@ -150,7 +150,7 @@ add_action('admin_post_happybreak-prospect-import-delete-csv', 'hpi_prospects_im
 
 function hpi_prospects_import_download_template()
 {
-    require_once 'hpi_Import.php';
+    require_once 'Hpi_Import.php';
     Hpi_Import::generateTemplateFile();
 }
 
