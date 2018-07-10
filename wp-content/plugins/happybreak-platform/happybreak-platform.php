@@ -113,9 +113,21 @@ add_filter('parse_query', 'filter_teleoperateur_admin');
 function happybreak_force_filter_orders_by_agent($where, $query)
 {
     global $wpdb;
+
+    // Passthrough other queries
+    if ( ! is_admin() && strpos($query->query['post_type'], 'order') === false) {
+        return $where;
+    }
+
     $currentUserId = get_current_user_id();
-    if (is_admin() && !is_super_admin($currentUserId) && !members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE) && strpos($query->query['post_type'], 'order') !== false) {
+
+    // If non admin and not super agent only show own orders
+    if ( ! is_super_admin($currentUserId) && ! members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE)) {
         $where .= " AND EXISTS (SELECT * FROM {$wpdb->postmeta} pm_agent WHERE pm_agent.post_id = {$wpdb->posts}.ID AND pm_agent.meta_key = '" . ORDER_CALL_CENTER_AGENT_USER_ID . "' AND pm_agent.meta_value = '$currentUserId')";
+
+        // If super agent only show own orders and agents orders
+    } else if (members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE)) {
+        $where .= " AND EXISTS (SELECT * FROM {$wpdb->postmeta} pm_agent WHERE pm_agent.post_id = {$wpdb->posts}.ID AND pm_agent.meta_key = '" . ORDER_CALL_CENTER_AGENT_USER_ID . "' AND (pm_agent.meta_value = '$currentUserId' OR pm_agent.meta_value IN (SELECT user_id FROM {$wpdb->usermeta} um WHERE um.meta_key = 'wp_capabilities' AND um.meta_value LIKE '%" . CALL_CENTER_AGENT_ROLE . "%')))";
     }
 
     return $where;
