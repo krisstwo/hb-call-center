@@ -115,7 +115,7 @@ function happybreak_force_filter_orders_by_agent($where, $query)
     global $wpdb;
 
     // Passthrough other queries
-    if ( ! is_admin() && strpos($query->query['post_type'], 'order') === false) {
+    if ( ! is_admin() || strpos($query->query['post_type'], 'order') === false) {
         return $where;
     }
 
