@@ -128,7 +128,7 @@ class Hpi_Import
             /**
              * @var WP_Error $userID
              */
-            throw new Exception($userID->get_error_messages());
+            throw new Exception(implode("\n", $userID->get_error_messages()));
         } else {
             update_user_meta($userID, 'billing_first_name', $row[self::$rowStructure['first_name']]);
             update_user_meta($userID, 'billing_last_name', $row[self::$rowStructure['last_name']]);
