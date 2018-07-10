@@ -15,5 +15,5 @@ wp-content/themes/*
 
 !wp-content/plugins/
 wp-content/plugins/*
-!wp-content/plugins/happybreak-clients-import/
+!wp-content/plugins/happybreak-platform/
 !wp-content/plugins/happybreak-prospect-import/
