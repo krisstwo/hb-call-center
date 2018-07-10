@@ -15,6 +15,7 @@ Author URI: http://coffeeandbrackets.com
 //TODO: code to be organised from previous developer
 
 define('CALL_CENTER_AGENT_ROLE', 'call_center_agent');
+define('CALL_CENTER_INTERNAL_AGENT_ROLE', 'call_center_internal_agent');
 define('CALL_CENTER_SUPER_AGENT_ROLE', 'call_center_super_agent');
 define('ORDER_CALL_CENTER_AGENT_USER_ID', 'call_center_agent_user_id');
 define('PRODUCT_SHIPPING_TAG_SLUG', 'livraison');
@@ -29,7 +30,16 @@ function redirect_guest()
 {
     global $wp;
 
-    if (empty($_GET['pay_for_order']) && empty($wp->query_vars['order-received']) && !is_page('thank-you') && !is_user_logged_in() && !is_super_admin(get_current_user_id()) && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE) && !members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE)) {
+    if (
+        empty($_GET['pay_for_order'])
+        && empty($wp->query_vars['order-received'])
+        && ! is_page('thank-you')
+        && ! is_user_logged_in()
+        && ! is_super_admin(get_current_user_id())
+        && ! members_current_user_has_role(CALL_CENTER_AGENT_ROLE)
+        && ! members_current_user_has_role(CALL_CENTER_INTERNAL_AGENT_ROLE)
+        && ! members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE
+        )) {
         wp_redirect(' https://www.happybreak.com');
         exit();
     }
@@ -231,7 +241,12 @@ function happybreak_add_guest_caps($allcaps, $caps, $args, $user)
     /**
      * @var $user WP_User
      */
-    if ((int)$user->ID != 0 && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE) && !members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE) && empty($allcaps['delete_users']))
+    if (
+            (int)$user->ID != 0
+            && ! members_current_user_has_role(CALL_CENTER_AGENT_ROLE)
+            && ! members_current_user_has_role(CALL_CENTER_INTERNAL_AGENT_ROLE)
+            && ! members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE)
+            && empty($allcaps['delete_users']))
         return $allcaps;
 
     return array_merge($allcaps, array('pay_for_order' => true));
@@ -798,7 +813,13 @@ add_filter('admin_body_class', 'happybreak_admin_order_status_body_class');
 
 function happybreak_filter_available_payment_methods($availableMethods)
 {
-    if (!is_add_payment_method_page() && !is_super_admin(get_current_user_id()) && !members_current_user_has_role(CALL_CENTER_AGENT_ROLE) && !members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE)) {
+    if (
+        ! is_add_payment_method_page()
+        && ! is_super_admin(get_current_user_id())
+        && ! members_current_user_has_role(CALL_CENTER_AGENT_ROLE)
+        && ! members_current_user_has_role(CALL_CENTER_INTERNAL_AGENT_ROLE)
+        && ! members_current_user_has_role(CALL_CENTER_SUPER_AGENT_ROLE)
+    ) {
         unset($availableMethods['bacs']);
         unset($availableMethods['cheque']);
     }
