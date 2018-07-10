@@ -78,7 +78,15 @@ function happybreak_custom_orders_filters($post_type)
 {
     if ($post_type == 'shop_order' && is_super_admin(get_current_user_id())) {
 
-        $usersTeleOp = get_users('blog_id=1&orderby=nicename&role=' . CALL_CENTER_AGENT_ROLE);
+        $usersTeleOp = get_users(array(
+            'blog_id' => 1,
+            'orderby' => 'nicename',
+            'role__in' => array(
+                CALL_CENTER_AGENT_ROLE,
+                CALL_CENTER_INTERNAL_AGENT_ROLE,
+                CALL_CENTER_SUPER_AGENT_ROLE
+            )
+        ));
         echo '<select name="agent_filter">';
         ?>
         <option value><?php _e('Tous les Téléopérateurs'); ?></option>
