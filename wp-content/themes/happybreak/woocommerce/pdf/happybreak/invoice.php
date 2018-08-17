@@ -31,7 +31,11 @@
             <td>
                 <?php _e( 'N° de facture', 'woocommerce-pdf-invoices-packing-slips' ); ?> :
               <span class="color_custom_info">
+                  <?php if(strlen($this->get_invoice_number()) < 7): // Old invoice genetaed number  ?>
                   THB<?= str_pad($this->get_invoice_number(), 4, '0', STR_PAD_LEFT); ?>
+                  <?php else : ?>
+                      <?= $this->get_invoice_number(); ?>
+                  <?php endif; ?>
               </span>
             </td>
             </tr>
