@@ -35,6 +35,7 @@ class Happybreak_Meta_Box_Order_Items_Modal
                         <article>
                             <?php
                             $products = wc_get_products(array(
+                                'status' => array('publish'),
                                 'orderby' => 'ID',
                                 'order' => 'ASC'
                             ));
