@@ -1,3 +1,7 @@
+### 1.2.1 2018-08-29 :
+ * #5 : Add shipping on item add and not order save to be able to remove shipping item afterwards
+ * #10 : Fix invoice template to use plugin invoice's number settigns prefix and padding
+
 ### 1.2.0 2018-07-10 :
  * #8 : Assitant d'import de fichier clients
  * #9 : Agent interne
