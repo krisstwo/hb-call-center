@@ -1,3 +1,6 @@
+### 1.3.0 2018-08-30 :
+ * #6 : Gérer les produit à qté 1
+
 ### 1.2.1 2018-08-29 :
  * #11 : Dépublier certains produits de la page commande
  * #5 : Add shipping on item add and not order save to be able to remove shipping item afterwards
