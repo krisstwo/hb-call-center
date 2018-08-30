@@ -6,6 +6,7 @@
 
 define('PRODUCT_PRIVILEGE_INSTRUCTION_TAG_SLUG', 'instructions-privilege');
 define('PRODUCT_3MOIS_INSTRUCTION_TAG_SLUG', 'instructions-3-mois');
+define('PRODUCT_QTE_1_TAG_SLUG', 'qte-1');
 
 class Happybreak_Email_Customer_Instructions extends WC_Email
 {
@@ -60,7 +61,8 @@ class Happybreak_Email_Customer_Instructions extends WC_Email
 
         //load product instruction tags
         $privilegeTerm = get_term_by('slug', PRODUCT_PRIVILEGE_INSTRUCTION_TAG_SLUG, 'product_tag');
-        $mois3Term = get_term_by('slug', PRODUCT_3MOIS_INSTRUCTION_TAG_SLUG, 'product_tag');
+        $mois3Term     = get_term_by('slug', PRODUCT_3MOIS_INSTRUCTION_TAG_SLUG, 'product_tag');
+        $qte1Term      = get_term_by('slug', PRODUCT_QTE_1_TAG_SLUG, 'product_tag');
 
         foreach ($productItems as $productItem) {
             $product = $productItem->get_product();
@@ -73,7 +75,11 @@ class Happybreak_Email_Customer_Instructions extends WC_Email
 
             } elseif ($mois3Term && in_array($mois3Term->term_id, $product->get_tag_ids())) {
 
-                //TODO: handle qty ?
+                //TODO: go back to normal qty ? getting too wiered (client asked for 2 pieces as 1)
+                $implicitQty = 2;
+                if ($qte1Term && in_array($qte1Term->term_id, $product->get_tag_ids())) {
+                    $implicitQty = 1;
+                }
 
                 $this->template_html = 'emails/customer-instructions-3mois.php';
                 $this->subject = __('Utilisez votre e-carte 3 mois Happybreak', 'happybreak');
@@ -84,30 +90,39 @@ class Happybreak_Email_Customer_Instructions extends WC_Email
                 if (empty($activationCodeMeta)) {
 
                     $wpdb->query('LOCK TABLE activation_codes WRITE');
-                    $rows = $wpdb->get_results('SELECT * FROM activation_codes WHERE is_used != 1 LIMIT 2');
+                    $rows = $wpdb->get_results('SELECT * FROM activation_codes WHERE is_used != 1 LIMIT ' . $implicitQty);
 
-                    if (count($rows) < 2) {
-                        wp_mail($this->get_option('admin_email'), 'Codes 3 mois', 'Nombre restant insuffisant. Commande concernée : ' . $order->get_id());
+                    if (count($rows) < $implicitQty) {
+                        wp_mail($this->get_option('admin_email'), '[ACTION REQUIRED] Codes 3 mois',
+                            'Nombre restant insuffisant. Commande concernée : ' . $order->get_id());
 
                         $wpdb->query('UNLOCK TABLES');
 
                         return;
                     }
-                    $this->activationCode = array($rows[0]->Numerocarte, $rows[1]->Numerocarte);
 
-                    //mark codes as used
-                    $wpdb->update('activation_codes', array('is_used' => 1), array('carteund' => $rows[0]->carteund));
-                    $wpdb->update('activation_codes', array('is_used' => 1), array('carteund' => $rows[1]->carteund));
+                    $this->activationCode = array();
+                    foreach ($rows as $row) {
+                        $this->activationCode[] = $row->Numerocarte;
+
+                        //mark codes as used
+                        $wpdb->update('activation_codes', array('is_used' => 1), array('carteund' => $row->carteund));
+                    }
+
                     $wpdb->query('UNLOCK TABLES');
 
                     //save codes to order
-                    $order->add_meta_data('activation_code_3mois', $rows[0]->Numerocarte);
-                    $order->add_meta_data('activation_code_3mois', $rows[1]->Numerocarte);
+                    foreach ($rows as $row) {
+                        $order->add_meta_data('activation_code_3mois', $row->Numerocarte);
+                    }
+
                     $order->save_meta_data();
 
                 }else {
-                    $activationCodeMeta = array_combine(array(0, 1), $activationCodeMeta);
-                    $this->activationCode = array($activationCodeMeta[0]->value, $activationCodeMeta[1]->value);
+                    $this->activationCode = array();
+                    foreach ($activationCodeMeta as $code) {
+                        $this->activationCode[] = $code->value;
+                    }
                 }
             } else {
                 continue;
