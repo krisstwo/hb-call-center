@@ -251,7 +251,7 @@ table.totals tr.payment_method {
 
 /* Footer Imprint */
 #footer {
-    border: 1px solid #f7a600;
+    border: 1px solid #FFBD00;
     right: 0;
     font-size: 12px;
     /* if you change the footer height, don't forget to change the bottom (=negative height) and the @page margin-bottom as well! */
@@ -270,7 +270,7 @@ table.totals tr.payment_method {
 	font-family: sans-serif;
 }
 .recap_order{
-    border: 1px solid #f7a600;
+    border: 1px solid #FFBD00;
 }
 /* Order details */
 table.recap_order {
@@ -288,7 +288,7 @@ table.recap_order {
     font-size: 13px;
 }
 .color_custom_info{
-    color: #f7a600;
+    color: #FFBD00;
 }
 .footer_condition{
     font-weight: 800;
