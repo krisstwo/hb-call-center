@@ -29,7 +29,7 @@ do_action('woocommerce_email_header', $email_heading, $email); ?>
 <?php if (!(int)$order->get_meta($email->id . '_sent', true)) : ?>
     <p><?php _e("Merci pour votre commande Happybreak.", 'happybreak'); ?></p>
 <?php else : ?>
-    <p><?php _e("Sauf erreur de ma part je n’ai pas encore reçu votre paiement. L’offre 2 pour le prix d’un 1 va bientôt expirer !", 'happybreak'); ?></p>
+    <p><?php _e("Sauf erreur de ma part je n’ai pas encore reçu votre paiement.", 'happybreak'); ?></p>
     <p><?php _e("Si vous avez des questions, vous pouvez me contacter au 09 80 01 01 01 (appel non surtaxé).", 'happybreak'); ?></p>
 <?php endif; ?>
 

@@ -1,3 +1,6 @@
+### 1.3.1 2018-10-01 :
+ * Text fix dans email de relance paiement
+
 ### 1.3.0 2018-08-30 :
  * #6 : Gérer les produit à qté 1
 

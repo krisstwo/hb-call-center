@@ -31,7 +31,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
         <p><?php printf(__('Cliquez sur ce lien; et commandez en ligne : %2$s', 'happybreak'), get_bloginfo('name', 'display'), '<a href="' . esc_url($order->get_checkout_payment_url()) . '">' . __('payer', 'happybreak') . '</a>'); ?></p>
     <?php endif; ?>
 <?php else : ?>
-    <p><?php _e( 'Sauf erreur de ma part je n’ai pas encore reçu votre paiement. L’offre 2 pour le prix d’un 1 va bientôt expirer !', 'happybreak' ); ?></p>
+    <p><?php _e( 'Sauf erreur de ma part je n’ai pas encore reçu votre paiement.', 'happybreak' ); ?></p>
     <p><?php _e( 'Si vous avez des questions, vous pouvez me contacter au 09 80 01 01 01 (appel non surtaxé).', 'happybreak' ); ?></p>
     <?php
     //alternate order details template for invoice
